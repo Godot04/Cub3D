@@ -1,5 +1,7 @@
 #include "../includes/game.h"
 
+int	debug = 0;
+
 void	put_pixel(int x, int y, int color, t_game *game)
 {
 	if (x >= WIDTH || y >= HEIGHT || x < 0 || y < 0)
@@ -99,12 +101,12 @@ void	draw_line(t_player *player, t_game *game, float start_x, int i)
 
 	while (!touch(ray_x, ray_y, game))
 	{
-		if (DEBUG)
+		if (debug)
 			put_pixel(ray_x, ray_y, 0xFF0000, game);
 		ray_x += cos_angle;
 		ray_y += sin_angle;
 	}
-	if (!DEBUG)
+	if (!debug)
 	{
 		float	dist = fixed_dist(player->x, player->y, ray_x, ray_y, game);
 		float	height = (BLOCK_SIZE / dist) * (WIDTH / 2);
@@ -123,7 +125,7 @@ int	draw_loop(t_game *game)
 	t_player	*player = &game->player;
 	clear_image(game);
 	move_player(player);
-	if (DEBUG)
+	if (debug)
 	{
 		draw_square(player->x, player->y, 10, 0x00FF00, game);
 		draw_map(game);
@@ -143,8 +145,10 @@ int	draw_loop(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
+	if (argc > 1)
+		debug = 1;
 	t_game	game;
 
 	init_game(&game);
