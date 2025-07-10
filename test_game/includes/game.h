@@ -12,6 +12,14 @@
 #define D 100
 #define LEFT 65361
 #define RIGHT 65363
+#define ESC_CODE 65307
+
+#define GREEN 0x00FF00
+#define DARK_GREEN 0x008B00
+#define RED 0xFF0000
+#define DARK_RED 0x8B0000
+#define BLUE 0x0000FF
+#define DARK_BLUE 0x00008B
 
 #define PI 3.14159265359
 
@@ -20,6 +28,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
+#include <sys/time.h>
 
 typedef struct	s_player
 {
@@ -50,11 +59,13 @@ typedef struct	s_game
 	t_player	player;
 
 	char	**map;
+	int		debug;
+	struct timeval	last_frame;
 } t_game;
 
-void	init_player(t_player *player);
+void	init_player(t_player *player, char **map);
 int		key_press(int keycode, t_player *player);
 int		key_release(int keycode, t_player *player);
-void	move_player(t_player *player);
+void	move_player(t_player *player, t_game *game);
 
 #endif

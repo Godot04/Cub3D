@@ -12,6 +12,14 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(CC) $(SRC) -o $(NAME) $(includes) $(LFLAGS)
 
-fclean:
+clean:
 	rm -rf $(OBJ)
+
+
+fclean: clean
 	rm -rf $(NAME)
+
+make re: fclean all
+
+make reclean: fclean all
+	rm -rf $(OBJ)
