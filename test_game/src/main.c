@@ -183,16 +183,6 @@ int	draw_loop(t_game *game)
 	return (0);
 }
 
-int	mouse(int keycode, t_game *game)
-{
-	int	x = 0;
-	int	y = 0;
-	mlx_mouse_get_pos(game->mlx, game->win, &x, &y);
-	printf("%d at pos: x: %d y: %d\n", keycode, x, y);
-
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_game	game;
@@ -205,7 +195,6 @@ int	main(int argc, char **argv)
 	
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game.player);
 	mlx_hook(game.win, 3, 1L << 1, key_release, &game.player);
-	// mlx_mouse_hook(game.win, mouse, &game);
 
 	mlx_loop_hook(game.mlx, draw_loop, &game);
 
