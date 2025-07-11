@@ -47,12 +47,12 @@ char	**get_map(void)
 	char	**map = malloc(sizeof(char *) * 11);
 	map[0] = "111111111111111";
 	map[1] = "100000000010001";
-	map[2] = "1001000W0010001";
+	map[2] = "100100000010001";
 	map[3] = "100000000010001";
 	map[4] = "100001000010001";
 	map[5] = "100000000000001";
 	map[6] = "100000000100001";
-	map[7] = "100010S00000001";
+	map[7] = "100010E00000001";
 	map[8] = "100000000000001";
 	map[9] = "111111111111111";
 	map[10] = NULL;
@@ -183,6 +183,16 @@ int	draw_loop(t_game *game)
 	return (0);
 }
 
+int	mouse(int keycode, t_game *game)
+{
+	int	x = 0;
+	int	y = 0;
+	mlx_mouse_get_pos(game->mlx, game->win, &x, &y);
+	printf("%d at pos: x: %d y: %d\n", keycode, x, y);
+
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_game	game;
@@ -192,9 +202,10 @@ int	main(int argc, char **argv)
 		game.debug = 0;
 
 	init_game(&game);
-
+	
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game.player);
 	mlx_hook(game.win, 3, 1L << 1, key_release, &game.player);
+	// mlx_mouse_hook(game.win, mouse, &game);
 
 	mlx_loop_hook(game.mlx, draw_loop, &game);
 
