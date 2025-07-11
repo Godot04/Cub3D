@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:28:25 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/07 17:26:26 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/11 11:26:42 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	window_create(t_data *data)
 {
 	data->mlx = mlx_init();
-	data->window = mlx_new_window(data->mlx, 800, 800, "Cub3D");
+	data->window = mlx_new_window(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
 }
 
 int	close_window(t_data *data)
@@ -27,6 +27,39 @@ int	close_window(t_data *data)
 	free(data->mlx);
 	exit(0);
 	return (0);
+}
+
+void	wall_draw(t_data *data)
+{
+	int	y;
+	int	x;
+	int	*img_data;
+	int	map[8][8] =
+	{
+		{1, 1, 1, 1, 1, 1, 1, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 1, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 1, 1, 1, 1, 1, 1, 1}
+	};
+	data->wall = mlx_new_image(data->mlx, WALL_SIZE, WALL_SIZE);
+	img_data = (int *)mlx_get_data_addr(data->background, &data->bits_per_pixel,
+											&data->line_length, &data->endian);
+	y = -1;
+	while (++y < 8)
+	{
+		x = -1;
+		while (++x < 8)
+		{
+			if (map[x][y] == 1)
+			{
+				img_data[y] = GREEN;
+			}
+		}
+	}
 }
 
 void	background_draw(t_data *data)
@@ -49,6 +82,7 @@ void	background_draw(t_data *data)
 		}
 	}
 	mlx_put_image_to_window(data->mlx, data->window, data->background, 0, 0);
+	wall_draw(data);
 }
 
 void	player_draw(t_data *data)
@@ -59,7 +93,6 @@ void	player_draw(t_data *data)
 	int	x;
 	int	y;
 	int	pixel_pos;
-
 	img_data = (int *)mlx_get_data_addr(data->background, &data->bits_per_pixel,
 										&data->line_length, &data->endian);
 	start_x = data->px;
@@ -88,6 +121,8 @@ void	initialize_properties(t_data *data)
 	data->p_height = PLAYER_SIZE;
 	data->p_color = YELLOW;
 	data->background = NULL;
+	data->w_width = WALL_SIZE;
+	data->w_height = WALL_SIZE;
 	data->bits_per_pixel = 0;
 	data->line_length = 0;
 	data->endian = 0;
