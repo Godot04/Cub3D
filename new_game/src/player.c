@@ -6,7 +6,7 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:50:45 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/11 16:57:20 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:06:08 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,37 @@ float	get_y(char **map)
 
 void	init_player(t_player *player, char **map)
 {
-	player->pos_x = get_x(map) * BLOCK_SIZE;
-	player->pos_y = get_y(map) * BLOCK_SIZE;
-	player->pos_x = WIDTH / 2;
-	player->pos_y = HEIGHT / 2;
-	player->dir_x = 0.0;
-	player->dir_y = -1.0;
-	player->plane_x = 0.66;
-	player->plane_y = 0.;
+	player->pos_x = get_x(map);
+	player->pos_y = get_y(map);
+	char	facing = map[(int)get_y(map)][(int)get_x(map)];
+	if (facing == 'W')
+	{
+		player->dir_x = -1.0;
+		player->dir_y = 0.0;
+		player->plane_x = 0.0;
+		player->plane_y = -FOV;
+	}
+	else if (facing == 'S')
+	{
+		player->dir_x = 0.0;
+		player->dir_y = 1.0;
+		player->plane_x = -FOV;
+		player->plane_y = 0.0;
+	}
+	else if (facing == 'E')
+	{
+		player->dir_x = 1.0;
+		player->dir_y = 0.0;
+		player->plane_x = 0.0;
+		player->plane_y = FOV;
+	}
+	else
+	{
+		player->dir_x = 0.0;
+		player->dir_y = -1.0;
+		player->plane_x = FOV;
+		player->plane_y = 0.0;
+	}
 	player->key_up = false;
 	player->key_down = false;
 	player->key_left = false;
@@ -49,39 +72,39 @@ void	init_player(t_player *player, char **map)
 	
 }
 
-int	key_pressed(int keycode, t_player *player)
+int	key_pressed(int keycode, t_game *game)
 {
 	if (keycode == W)
-		player->key_up = true;
+		game->player.key_up = true;
 	if (keycode == A)
-		player->key_left = true;
+		game->player.key_left = true;
 	if (keycode == S)
-		player->key_down = true;
+		game->player.key_down = true;
 	if (keycode == D)
-		player->key_right = true;
+		game->player.key_right = true;
 	if (keycode == LEFT)
-		player->left_rotate = true;
+		game->player.left_rotate = true;
 	if (keycode == RIGHT)
-		player->right_rotate = true;
+		game->player.right_rotate = true;
 	if (keycode == ESC)
-		exit(0);
+		close_game(game);
 	return (0);
 }
 
-int	key_released(int keycode, t_player *player)
+int	key_released(int keycode, t_game *game)
 {
 	if (keycode == W)
-		player->key_up = false;
+		game->player.key_up = false;
 	if (keycode == A)
-		player->key_left = false;
+		game->player.key_left = false;
 	if (keycode == S)
-		player->key_down = false;
+		game->player.key_down = false;
 	if (keycode == D)
-		player->key_right = false;
+		game->player.key_right = false;
 	if (keycode == LEFT)
-		player->left_rotate = false;
+		game->player.left_rotate = false;
 	if (keycode == RIGHT)
-		player->right_rotate = false;
+		game->player.right_rotate = false;
 	return (0);
 }
 
@@ -91,29 +114,52 @@ void	move_player(t_game *game)
 	double	rotation_speed;
 	double	old_dir_x;
 	double	old_plane_x;
+	double	delta_time;
+	double	move_dir_x = 0;
+	double	move_dir_y = 0;
+	struct timeval	current_frame;
+	
 
-	move_speed = 3.0;
-	rotation_speed = 0.05;
+	gettimeofday(&current_frame, NULL);
+	delta_time = (current_frame.tv_sec - game->last_frame.tv_sec) + (current_frame.tv_usec - game->last_frame.tv_usec) / 1000000.0;
+	game->last_frame = current_frame;
+
+	move_speed = 3.0 * delta_time;
+	rotation_speed = 2.0 * delta_time;
 	if (game->player.key_up)
 	{
-		game->player.pos_x += (move_speed * game->player.dir_x);
-		game->player.pos_y += (move_speed * game->player.dir_y);
+		move_dir_x += game->player.dir_x;
+		move_dir_y += game->player.dir_y;
 	}
 	if (game->player.key_down)
 	{
-		game->player.pos_x -= (move_speed * game->player.dir_x);
-		game->player.pos_y -= (move_speed * game->player.dir_y);
+		move_dir_x -= game->player.dir_x;
+		move_dir_y -= game->player.dir_y;
 	}
 	if (game->player.key_left)
 	{
-		game->player.pos_x -= (move_speed * game->player.plane_x);
-		game->player.pos_y -= (move_speed * game->player.plane_y);
+		move_dir_x -= game->player.plane_x;
+		move_dir_y -= game->player.plane_y;
 	}
 	if (game->player.key_right)
 	{
-		game->player.pos_x += (move_speed * game->player.plane_x);
-		game->player.pos_y += (move_speed * game->player.plane_y);
+		move_dir_x += game->player.plane_x;
+		move_dir_y += game->player.plane_y;
 	}
+
+	if (move_dir_x != 0 || move_dir_y != 0) // normalize movement vector
+	{
+		double	len = sqrt(move_dir_x * move_dir_x + move_dir_y * move_dir_y);
+		double	next_x = game->player.pos_x + (move_dir_x / len) * move_speed;
+		double	next_y = game->player.pos_y + (move_dir_y / len) * move_speed;
+		if (game->map[(int)game->player.pos_y][(int)(next_x)] != '1') // collision check (seperate to slide along the walls)
+		{
+			game->player.pos_x = next_x;
+		}
+		if (game->map[(int)(next_y)][(int)game->player.pos_x] != '1')
+			game->player.pos_y = next_y;
+	}
+		
 	if (game->player.left_rotate)
 	{
 		old_dir_x = game->player.dir_x;

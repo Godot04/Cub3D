@@ -6,7 +6,7 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:53 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/11 16:49:49 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:55:17 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,18 @@ void	ft_bzero(void *s, size_t n)
 		*ptr = 0;
 		ptr++;
 	}
+}
+
+int	close_game(t_game *game)
+{
+	if (game->map)
+		free(game->map);
+
+	mlx_destroy_image(game->mlx, game->img.ptr);
+	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
+
+	exit(0);
+	return (0);
 }

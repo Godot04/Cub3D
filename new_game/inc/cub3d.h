@@ -6,7 +6,7 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/11 16:55:51 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:02:44 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <sys/time.h>
+#include <limits.h>
 
 #define W 119
 #define A 97
@@ -28,11 +29,20 @@
 #define RIGHT 65363
 #define ESC 65307
 
+#define DEBUG 1
+#define MINIMAP 0
 #define PI 3.14159265359
 
-#define WIDTH 1280
-#define HEIGHT 720
-#define BLOCK_SIZE 64
+#define WIDTH 1920
+#define HEIGHT 1080
+#define BLOCK_SIZE 96
+#define PLAYER_SIZE 16
+#define FOV 0.66
+
+#define NORTH 0xFF00FF
+#define EAST 0x00FF00
+#define SOUTH 0xFFFF00
+#define WEST 0x00FFFF
 
 typedef struct	s_player
 {
@@ -67,13 +77,17 @@ typedef struct	s_game
 	t_img		img;
 	t_player	player;
 	char		**map;
+	int			crgb;
+	int			frgb;
+	struct timeval	last_frame;
 }				t_game;
 
 int		trgb_to_int(int t, int r, int g, int b);
 void	ft_bzero(void *s, size_t n);
+int		close_game(t_game *game);
 
 void	init_player(t_player *player, char **map);
-int		key_pressed(int keycode, t_player *player);
-int		key_released(int keycode, t_player *player);
+int		key_pressed(int keycode, t_game *game);
+int		key_released(int keycode, t_game *game);
 void	move_player(t_game *game);
 #endif
