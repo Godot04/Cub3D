@@ -6,7 +6,7 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/14 17:02:44 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:07:33 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 #define RIGHT 65363
 #define ESC 65307
 
-#define DEBUG 1
+#define DEBUG 0
 #define MINIMAP 0
 #define PI 3.14159265359
 

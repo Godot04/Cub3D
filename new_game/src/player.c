@@ -6,7 +6,7 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:50:45 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/14 17:06:08 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:14:56 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,14 +150,8 @@ void	move_player(t_game *game)
 	if (move_dir_x != 0 || move_dir_y != 0) // normalize movement vector
 	{
 		double	len = sqrt(move_dir_x * move_dir_x + move_dir_y * move_dir_y);
-		double	next_x = game->player.pos_x + (move_dir_x / len) * move_speed;
-		double	next_y = game->player.pos_y + (move_dir_y / len) * move_speed;
-		if (game->map[(int)game->player.pos_y][(int)(next_x)] != '1') // collision check (seperate to slide along the walls)
-		{
-			game->player.pos_x = next_x;
-		}
-		if (game->map[(int)(next_y)][(int)game->player.pos_x] != '1')
-			game->player.pos_y = next_y;
+		game->player.pos_x = game->player.pos_x + (move_dir_x / len) * move_speed;
+		game->player.pos_y = game->player.pos_y + (move_dir_y / len) * move_speed;
 	}
 		
 	if (game->player.left_rotate)
