@@ -7,6 +7,7 @@ includes = inc/mlx/libmlx.a
 SRC =	src/main.c \
 		src/utils.c \
 		src/player.c \
+		src/minimap.c \
 
 all: $(NAME)
 
