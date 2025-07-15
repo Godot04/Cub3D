@@ -1,9 +1,13 @@
 NAME = Cub3D
-SRC = main.c
+SRC = main.c \
+		movement.c \
+		environment_draw.c \
+		checks.c \
+		utils.c 
 OBJ = $(SRC:.c=.o)
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 MLX_DIR = ../inc/minilibx-linux
 MLX_LIB = $(MLX_DIR)/libmlx_Linux.a
 MLX_FLAGS = -L$(MLX_DIR) -lmlx_Linux -lX11 -lXext -lm
