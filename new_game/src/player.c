@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:50:45 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/15 14:11:47 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/17 16:35:55 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	init_player(t_player *player, char **map)
 	player->key_right = false;
 	player->left_rotate = false;
 	player->right_rotate = false;
-
 }
 
 int	key_pressed(int keycode, t_game *game)

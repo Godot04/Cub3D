@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:55 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/17 13:39:47 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/17 16:37:30 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ char	**get_map(t_game *game)
 	map[1] = "100000000010001";
 	map[2] = "100100000010001";
 	map[3] = "100000000010001";
-	map[4] = "1100010E0010001";
-	map[5] = "101000000000001";
+	map[4] = "100001000010001";
+	map[5] = "100000000000001";
 	map[6] = "100000000100001";
-	map[7] = "100010000000001";
-	map[8] = "100001000000001";
+	map[7] = "100010S00000001";
+	map[8] = "100000000000001";
 	map[9] = "111111111111111";
 	map[10] = NULL;
 	if (!is_map_correct(map))
@@ -37,13 +37,41 @@ char	**get_map(t_game *game)
 	return (map);
 }
 
+void	init_struct(t_game *game)
+{
+	game->mlx = NULL;
+	game->win = NULL;
+	game->map = NULL;
+	game->img.ptr = NULL;
+	game->north.ptr = NULL;
+	game->east.ptr = NULL;
+	game->south.ptr = NULL;
+	game->west.ptr = NULL;
+}
+
 void	init_game(t_game *game)
 {
+	int	tex_w;
+	int	tex_h;
 	game->map = get_map(game);
 	game->crgb = trgb_to_int(0, 0, 0, 64);
 	game->frgb = trgb_to_int(0, 64, 0, 0);
-	init_player(&game->player, game->map);
 	game->mlx = mlx_init();
+	game->north.ptr = mlx_xpm_file_to_image(game->mlx, PATH_NORTH, &tex_w, &tex_h);
+	if (game->north.ptr)
+		game->north.addr = (int *)mlx_get_data_addr(game->north.ptr, &game->north.bitsinpixel, &game->north.line_bytes, &game->north.endian);
+	game->east.ptr = mlx_xpm_file_to_image(game->mlx, PATH_EAST, &tex_w, &tex_h);
+	if (game->east.ptr)
+		game->east.addr = (int *)mlx_get_data_addr(game->east.ptr, &game->east.bitsinpixel, &game->east.line_bytes, &game->east.endian);
+	game->south.ptr = mlx_xpm_file_to_image(game->mlx, PATH_SOUTH, &tex_w, &tex_h);
+	if (game->south.ptr)
+		game->south.addr = (int *)mlx_get_data_addr(game->south.ptr, &game->south.bitsinpixel, &game->south.line_bytes, &game->south.endian);
+	game->west.ptr = mlx_xpm_file_to_image(game->mlx, PATH_WEST, &tex_w, &tex_h);
+	if (game->west.ptr)
+		game->west.addr = (int *)mlx_get_data_addr(game->west.ptr, &game->west.bitsinpixel, &game->west.line_bytes, &game->west.endian);
+	if (!game->north.ptr || !game->east.ptr || !game->south.ptr || !game->west.ptr)
+		close_game(game);
+	init_player(&game->player, game->map);
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "cub3d");
 	game->img.ptr = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	game->img.addr = (int *)mlx_get_data_addr(game->img.ptr, &game->img.bitsinpixel, &game->img.line_bytes, &game->img.endian);
@@ -81,14 +109,8 @@ void	draw_map(t_game *game)
 		while (game->map[y][x])
 		{
 			if (game->map[y][x] == '1')
-			{
 				if (DEBUG)
 					draw_square(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, 0xFF0000, game);
-				else if (MINIMAP)
-					draw_square(x * (BLOCK_SIZE / 4), y * (BLOCK_SIZE / 4), (BLOCK_SIZE / 4), 0xFF0000, game);
-			}
-			else if (MINIMAP)
-				draw_square(x * (BLOCK_SIZE / 4), y * (BLOCK_SIZE / 4), (BLOCK_SIZE / 4), 0xFFFFFF, game);
 			x++;
 		}
 		y++;
@@ -146,6 +168,39 @@ void	draw_ceiling_and_floor(t_game *game)
 	}
 }
 
+void	draw_texture(t_game *game, int side, int x, int tex_x, int start_y, int line_height)
+{
+	t_img	*texture;
+	double	tex_pos;
+	double	step;
+	int		y;
+	int		tex_y;
+	int		color;
+
+	if (side == NORTH)
+		texture = &game->north;
+	else if (side == EAST)
+		texture = &game->east;
+	else if (side == SOUTH)
+		texture = &game->south;
+	else
+		texture = &game->west;
+	step = 1.0 * TEXTURE_HEIGHT / line_height;
+	tex_pos = (start_y - HEIGHT / 2 + line_height / 2) * step;
+	y = start_y;
+	int draw_end = start_y + line_height;
+	if (draw_end > HEIGHT)
+		draw_end = HEIGHT;
+	while (y < draw_end)
+	{
+		tex_y = (int)tex_pos & (TEXTURE_HEIGHT - 1);
+		tex_pos += step;
+		color = texture->addr[TEXTURE_HEIGHT * tex_y + tex_x];
+		put_pixel(&game->img, x, y, color);
+		y++;
+	}
+}
+
 void	ray_caster(t_game *game)
 {
 	int	x = 0;
@@ -192,19 +247,22 @@ void	ray_caster(t_game *game)
 				side_dist_x += delta_dist_x;
 				map_x += step_x;
 				if (step_x > 0)
-					side = EAST;
-				else
 					side = WEST;
+				else
+					side = EAST;
 			}
 			else // jump to next square in y-direction
 			{
 				side_dist_y += delta_dist_y;
 				map_y += step_y;
 				if (step_y > 0)
-					side = SOUTH;
-				else
 					side = NORTH;
+				else
+					side = SOUTH;
 			}
+			if (map_y < 0 || map_y >= get_height(game->map) || \
+				map_x < 0 || map_x >= (int)ft_strlen(game->map[map_y]))
+				break ;
 			if (game->map[map_y][map_x] == '1')
 				break ;
 		}
@@ -232,7 +290,22 @@ void	ray_caster(t_game *game)
 			int	draw_end = line_height / 2 + HEIGHT / 2; // highest pixel of wall
 			if (draw_end >= HEIGHT)
 				draw_end = HEIGHT - 1;
-			draw_line(game, x, draw_start, x, draw_end, side);
+
+			double	wall_x;
+			if (side == EAST || side == WEST)
+				wall_x = game->player.pos_y + perp_wall_dist * ray_dir_y;
+			else
+				wall_x = game->player.pos_x + perp_wall_dist * ray_dir_x;
+			wall_x -= floor(wall_x); // Get the fractional part
+
+			// Calculate the x-coordinate on the texture
+			int tex_x = (int)(wall_x * (double)TEXTURE_WIDTH);
+			if (side == EAST || side == NORTH)
+				tex_x = TEXTURE_WIDTH - tex_x - 1;
+			if (TEXTURE)
+				draw_texture(game, side, x, tex_x, draw_start, line_height);
+			else
+				draw_line(game, x, draw_start, x, draw_end, side);
 		}
 		x++;
 	}
@@ -250,10 +323,7 @@ int	game_loop(t_game *game)
 	if (DEBUG)
 		draw_square(game->player.pos_x * BLOCK_SIZE - PLAYER_SIZE / 2, game->player.pos_y * BLOCK_SIZE - PLAYER_SIZE / 2, PLAYER_SIZE, trgb_to_int(0, 128, 255, 128), game);
 	else if (MINIMAP)
-	{
-		draw_map(game);
-		draw_square(game->player.pos_x * (BLOCK_SIZE / 4) - 8, game->player.pos_y * (BLOCK_SIZE / 4) - 8, PLAYER_SIZE / 2, trgb_to_int(0, 128, 255, 128), game);
-	}
+		draw_minimap(game, &game->player);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.ptr, 0, 0);
 	return (0);
 }
@@ -262,8 +332,8 @@ int	main(void)
 {
 	t_game	game;
 
+	init_struct(&game);
 	init_game(&game);
-
 	mlx_hook(game.win, 2, 1L << 0, key_pressed, &game);
 	mlx_hook(game.win, 3, 1L << 1, key_released, &game);
 	mlx_hook(game.win, 17, 0, close_game, &game);

@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/17 13:11:09 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/17 16:42:42 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 
 #define DEBUG 0
 #define MINIMAP 1
+#define TEXTURE 1
+
 #define PI 3.14159265359
 
 #define WIDTH 1920
@@ -47,11 +49,17 @@
 #define SOUTH 0xFFFF00
 #define WEST 0x00FFFF
 
-typedef struct	s_point
-{
-	int	x;
-	int	y;
-}	t_point;
+#define PATH_NORTH "textures/north_wall.xpm"
+#define PATH_EAST "textures/east_wall.xpm"
+#define PATH_SOUTH "textures/south_wall.xpm"
+#define PATH_WEST "textures/west_wall.xpm"
+
+#define TEXTURE_WIDTH 64
+#define TEXTURE_HEIGHT 64
+
+#define MAX_MAP_WIDTH 10
+#define MAX_MAP_HEIGHT 7
+#define MAP_SIZE 32
 
 typedef struct	s_player
 {
@@ -81,16 +89,18 @@ typedef struct	s_img
 
 typedef struct	s_game
 {
-	void		*mlx;
-	void		*win;
-	t_img		img;
-	t_player	player;
-	char		**map;
-	int			map_width;
-	int			map_height;
-	int			crgb;
-	int			frgb;
+	void			*mlx;
+	void			*win;
+	t_img			img;
+	t_player		player;
+	char			**map;
+	int				crgb;
+	int				frgb;
 	struct timeval	last_frame;
+	t_img			north;
+	t_img			east;
+	t_img			south;
+	t_img			west;
 }				t_game;
 
 int		trgb_to_int(int t, int r, int g, int b);
@@ -110,5 +120,11 @@ int		is_map_correct(char **map);
 int		player_spawn_search(int *y, int *x, char **map);
 int		fill_v(char **map_copy, int y, int x, int width, int height);
 int		wall_search(int *ox, int *oy, char **map);
+void	put_pixel(t_img *img, int x, int y, int color);
+void	draw_square(int x, int y, int size, int color, t_game *game);
+char	**get_map(t_game *game);
+void	draw_minimap(t_game *game, t_player *player);
+size_t	ft_strlen(const char *s);
+int		get_height(char **map);
 
 #endif
