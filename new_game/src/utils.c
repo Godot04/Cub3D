@@ -1,0 +1,77 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/11 13:50:53 by silpaukn          #+#    #+#             */
+/*   Updated: 2025/07/15 16:46:07 by opopov           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/cub3d.h"
+
+int	ft_isspace(char c)
+{
+	if (c == ' ' || c == '\n' || c == '\t'
+		|| c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
+}
+
+int	trgb_to_int(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*ptr;
+
+	ptr = (unsigned char *)s;
+	while (n--)
+	{
+		*ptr = 0;
+		ptr++;
+	}
+}
+
+int	close_game(t_game *game)
+{
+	if (game->map)
+		free(game->map);
+	mlx_destroy_image(game->mlx, game->img.ptr);
+	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
+
+	exit(0);
+	return (0);
+}
+
+int	is_wall(t_game *data, float x, float y)
+{
+	float	check_x;
+	float	check_y;
+	int		map_x;
+	int		map_y;
+	int		i;
+	float	angles[8] = {0, PI/4, PI/2, 3*PI/4, PI, 5*PI/4, 3*PI/2, 7*PI/4};
+
+	if (!data || !data->map || !data->map[0])
+		return (1);
+	i = -1;
+	while (++i < 8)
+	{
+		check_x = x + COLLISION_RADIUS * cos(angles[i]);
+		check_y = y + COLLISION_RADIUS * sin(angles[i]);
+		map_x = (int)check_x;
+		map_y = (int)check_y;
+		if (map_x < 0 || map_x >= 15 || map_y < 0 || map_y >= 11)
+			return (1);
+		if (data->map[map_y][map_x] == '1')
+			return (1);
+	}
+	return (0);
+}
