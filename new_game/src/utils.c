@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:53 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/17 16:35:37 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/18 11:47:44 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ int	close_game(t_game *game)
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}
+	free(game->no_path);
+	free(game->so_path);
+	free(game->we_path);
+	free(game->ea_path);
 	exit(0);
 	return (0);
 }

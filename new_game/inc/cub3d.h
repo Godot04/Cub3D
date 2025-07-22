@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/17 16:42:42 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/22 12:20:16 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 #include <sys/time.h>
 #include <limits.h>
 #include <string.h>
+#include <fcntl.h>
+
+#define MAX_LINE_LEN 1024
 
 #define W 119
 #define A 97
@@ -94,13 +97,24 @@ typedef struct	s_game
 	t_img			img;
 	t_player		player;
 	char			**map;
+	char			*file_path;
 	int				crgb;
+	int				c_r;
+	int				c_g;
+	int				c_b;
 	int				frgb;
+	int				f_r;
+	int				f_g;
+	int				f_b;
 	struct timeval	last_frame;
 	t_img			north;
 	t_img			east;
 	t_img			south;
 	t_img			west;
+	char			*no_path;
+	char			*so_path;
+	char			*we_path;
+	char			*ea_path;
 }				t_game;
 
 int		trgb_to_int(int t, int r, int g, int b);
@@ -119,12 +133,16 @@ int		wall_counter(char **map);
 int		is_map_correct(char **map);
 int		player_spawn_search(int *y, int *x, char **map);
 int		fill_v(char **map_copy, int y, int x, int width, int height);
-int		wall_search(int *ox, int *oy, char **map);
 void	put_pixel(t_img *img, int x, int y, int color);
 void	draw_square(int x, int y, int size, int color, t_game *game);
 char	**get_map(t_game *game);
 void	draw_minimap(t_game *game, t_player *player);
 size_t	ft_strlen(const char *s);
 int		get_height(char **map);
+int		cub_input_reader(t_game *game);
+int		space_skip(char *str);
+int		ft_cub(char *file_path);
+int		open_file_check(char *file_path);
+char	*read_line(int fd);
 
 #endif

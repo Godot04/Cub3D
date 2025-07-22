@@ -5,7 +5,10 @@ SRC =	src/main.c \
 		src/map_reader.c \
 		src/map_checker.c \
 		src/map_utils.c  \
-		src/minimap.c
+		src/minimap.c \
+		src/input_reader.c \
+		src/input_checker.c \
+		src/input_utils.c
 OBJ = $(SRC:.c=.o)
 CC = gcc
 
