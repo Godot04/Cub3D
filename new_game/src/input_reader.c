@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 10:05:05 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/22 13:35:39 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/28 13:48:35 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,14 +207,14 @@ int	cub_input_reader(t_game *game)
 		|| (game->c_r == -1 && game->c_g == -1 && game->c_b == -1)
 		|| (game->f_r == -1 && game->f_g == -1 && game->f_b == -1))
 	{
-		printf("Error: Missing configuration elements\n");
-		printf("NO: %s\nSO: %s\nWE: %s\nEA: %s\nF_r: %d\nF_g: %d\nF_b: %d\nC_r: %d\nC_g: %d\nC_b: %d\n",
-               game->no_path, game->so_path, game->we_path, game->ea_path,
-			   game->f_r, game->f_g, game->f_b, game->c_r, game->c_g, game->c_b);
+		// printf("Error: Missing configuration elements\n");
+		// printf("NO: %s\nSO: %s\nWE: %s\nEA: %s\nF_r: %d\nF_g: %d\nF_b: %d\nC_r: %d\nC_g: %d\nC_b: %d\n",
+        //        game->no_path, game->so_path, game->we_path, game->ea_path,
+		// 	   game->f_r, game->f_g, game->f_b, game->c_r, game->c_g, game->c_b);
 		return (0);
 	}
-	printf("NO: %s\nSO: %s\nWE: %s\nEA: %s\nF_r: %d\nF_g: %d\nF_b: %d\nC_r: %d\nC_g: %d\nC_b: %d\n",
-               game->no_path, game->so_path, game->we_path, game->ea_path,
-			   game->f_r, game->f_g, game->f_b, game->c_r, game->c_g, game->c_b);
+	// printf("NO: %s\nSO: %s\nWE: %s\nEA: %s\nF_r: %d\nF_g: %d\nF_b: %d\nC_r: %d\nC_g: %d\nC_b: %d\n",
+    //            game->no_path, game->so_path, game->we_path, game->ea_path,
+	// 		   game->f_r, game->f_g, game->f_b, game->c_r, game->c_g, game->c_b);
 	return (1);
 }

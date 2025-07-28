@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:58:10 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/17 13:26:26 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/28 11:01:36 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,25 @@ int	is_map_correct(char **map)
 	int	x;
 	int	y;
 
+	if (!map || !*map)
+	{
+		printf("Error: Map is NULL\n");
+		return (0);
+	}
 	map_fill(map);
 	if (!map_characters_check(map))
 	{
-		printf("Invalid character input\n");
+		printf("Error: Invalid character input\n");
 		return (0);
 	}
 	if (!player_spawn_search(&y, &x, map))
 	{
-		printf("Invalid spawn counter\n");
+		printf("Error: Invalid spawn counter\n");
 		return (0);
 	}
 	if (!is_map_closed(map))
 	{
-		printf("Invalid map input\n");
+		printf("Error: Invalid map input\n");
 		return (0);
 	}
 	return (1);

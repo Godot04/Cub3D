@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/22 12:20:16 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/28 14:58:28 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,8 @@ int		space_skip(char *str);
 int		ft_cub(char *file_path);
 int		open_file_check(char *file_path);
 char	*read_line(int fd);
+int		map_input_reader(t_game *game);
+int		is_line_empty(char *line);
+int		lines_counter(int fd);
 
 #endif

@@ -6,11 +6,43 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:05:19 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/22 12:24:27 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/28 14:58:06 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+int	lines_counter(int fd)
+{
+	int		y;
+	char	*input;
+
+	y = 0;
+	while ((input = read_line(fd)) != NULL)
+	{
+		if (is_line_empty(input))
+		{
+			free(input);
+			continue ;
+		}
+		y++;
+		free(input);
+	}
+	return (y);
+}
+
+int	is_line_empty(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (!ft_isspace(line[i]))
+			return (0);
+	}
+	return (1);
+}
 
 int	space_skip(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:24:20 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/17 11:52:17 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/28 15:47:00 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,119 @@ void	map_fill(char **map)
 		while (map[y][++x])
 		{
 			if (ft_isspace(map[y][x]))
-				map[y][x] = '1';
+				map[y][x] = '0';
 		}
 	}
+}
+
+char	*skip_additional_lines(int fd)
+{
+	char	*input;
+	char	*tmp;
+
+	while ((input = read_line(fd)) != NULL)
+	{
+		tmp = ft_strtrim(input, " \t\n\r\f\v");
+		if (!tmp)
+		{
+			printf("Error: Memory allocation failed\n");
+			free(input);
+			return (NULL);
+		}
+		if (!*tmp)
+		{
+			free(tmp);
+			free(input);
+			continue ;
+		}
+		if (*tmp == '1' || *tmp == '0')
+		{
+			free(tmp);
+			return (input);
+		}
+		free(input);
+		free(tmp);
+	}
+	return (NULL);
+}
+
+int	map_input_reader(t_game *game)
+{
+	char	**map;
+	char	*input;
+	char	*first_line;
+	int		fd;
+	int		fd_count;
+	int		fd_read;
+	int		x;
+	int		y;
+	int		i;
+
+	fd = open(game->file_path, O_RDONLY);
+	first_line = skip_additional_lines(fd);
+	if (!first_line)
+	{
+		printf("Error: File doesn't contain map\n");
+		close(fd);
+		return (0);
+	}
+	close(fd);
+	fd_count = open(game->file_path, O_RDONLY);
+	skip_additional_lines(fd_count);
+	y = lines_counter(fd_count) + 1;
+	close(fd_count);
+	if (y == 0)
+	{
+		printf("Error: Map is empty\n");
+		return (0);
+	}
+	map = malloc((sizeof(char *)) * (y + 1));
+	if (!map)
+	{
+		printf("Error: Map allocation failed\n");
+		return (0);
+	}
+	fd_read = open(game->file_path, O_RDONLY);
+	skip_additional_lines(fd_read);
+	x = 1;
+	map[0] = first_line;
+	while ((input = read_line(fd_read)) != NULL)
+	{
+		if (is_line_empty(input))
+		{
+			free(input);
+			continue ;
+		}
+		map[x] = ft_strdup(input);
+		if (!map[x])
+		{
+			printf("Error: Map allocation failed\n");
+			while (--x >= 0)
+				free(map[x]);
+			free(map);
+			free(input);
+			close(fd_read);
+			return (0);
+		}
+		x++;
+		free(input);
+	}
+	map[x] = NULL;
+	close(fd_read);
+	// // debug
+	// for (int y = 0; map[y]; y++)
+	// 		printf("[%d]: %s\n", y, map[y]);
+	if (!is_map_correct(map))
+	{
+		i = -1;
+		while (map[++i])
+			free(map[i]);
+		free(map);
+		return (0);
+	}
+	game->map = map;
+	// // debug
+	// for (int y = 0; game->map[y]; y++)
+	// 		printf("[%d]: %s\n", y, game->map[y]);
+	return (1);
 }
