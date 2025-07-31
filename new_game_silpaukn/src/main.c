@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:55 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/15 17:26:40 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:16:02 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ char	**get_map(void)
 	map[3] = "100000000010001";
 	map[4] = "100001000010001";
 	map[5] = "100000000000001";
-	map[6] = "100000000100001";
-	map[7] = "100010S00000001";
-	map[8] = "100000000000001";
+	map[6] = "1000001001000011111111111111111111";
+	map[7] = "10000000000000000000000011S00000001";
+	map[8] = "10000010000000111111111111111111111";
 	map[9] = "111111111111111";
 	map[10] = NULL;
 	return (map);
@@ -288,7 +288,7 @@ void	ray_caster(t_game *game)
 			int	draw_end = line_height / 2 + HEIGHT / 2; // highest pixel of wall
 			if (draw_end >= HEIGHT)
 				draw_end = HEIGHT - 1;
-			
+
 			double	wall_x;
 			if (side == EAST || side == WEST)
 				wall_x = game->player.pos_y + perp_wall_dist * ray_dir_y;

@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:53 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/18 11:47:44 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/31 12:47:08 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	is_wall(t_game *data, float x, float y)
 		check_y = y + COLLISION_RADIUS * sin(angles[i]);
 		map_x = (int)check_x;
 		map_y = (int)check_y;
-		if (map_x < 0 || map_x >= 15 || map_y < 0 || map_y >= 11)
+		if (map_x < 0 ||  map_y < 0)
 			return (1);
 		if (data->map[map_y][map_x] == '1')
 			return (1);

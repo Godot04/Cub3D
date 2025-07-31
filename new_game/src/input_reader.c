@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 10:05:05 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/28 13:48:35 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/29 10:16:53 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,8 @@ int	cub_input_reader(t_game *game)
 		{
 			printf("Error: Memory allocation failed\n");
 			close(fd);
-			break ;
+			free(tmp);
+			return (0);
 		}
 		if (!*tmp)
 		{
@@ -188,7 +189,6 @@ int	cub_input_reader(t_game *game)
 				close(fd);
 				return (0);
 			}
-			game->frgb = trgb_to_int(0, game->f_r, game->f_g, game->f_b);
 		}
 		else if (!ft_strncmp(tmp, "C ", 2))
 		{
@@ -198,7 +198,6 @@ int	cub_input_reader(t_game *game)
 				close(fd);
 				return (0);
 			}
-			game->crgb = trgb_to_int(0, game->c_r, game->c_g, game->c_b);
 		}
 		free(tmp);
 	}

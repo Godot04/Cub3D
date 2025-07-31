@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:50:45 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/17 16:35:55 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/31 12:44:10 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,8 @@ void	move_player(t_game *game)
 		tmp_x = game->player.pos_x + (move_dir_x / len) * move_speed;
 		tmp_y = game->player.pos_y + (move_dir_y / len) * move_speed;
 	}
-
+	else
+		return ;
 	if (!is_wall(game, tmp_x, tmp_y))
 	{
 		game->player.pos_x = tmp_x;
