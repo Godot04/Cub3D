@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:58:10 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/31 12:29:37 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/31 13:21:52 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ int	is_map_correct(char **map)
 		return (0);
 	}
 	map_fill(map);
-	// for (int y = 0; map[y]; y++)
-	// 		printf("%s\n", map[y]);
 	if (!map_characters_check(map))
 	{
 		printf("Error: Invalid character input\n");

@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:55 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/28 13:48:52 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/31 15:53:42 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,10 @@ void	put_pixel(t_img *img, int x, int y, int color)
 		img->addr[y * WIDTH + x] = color;
 }
 
-// char	**get_map(t_game *game)
-// {
-// 	char	**map = malloc(sizeof(char *) * 11);
-// 	map[0] = "111111111111111";
-// 	map[1] = "100000000010001";
-// 	map[2] = "100100000010001";
-// 	map[3] = "100000000010001";
-// 	map[4] = "100001000010001";
-// 	map[5] = "100000000000001";
-// 	map[6] = "100000000100001";
-// 	map[7] = "100010S00000001";
-// 	map[8] = "100000000000001";
-// 	map[9] = "111111111111111";
-// 	map[10] = NULL;
-// 	if (!is_map_correct(map))
-// 	{
-// 		printf("Error: Invalid map\n");
-// 		close_game(game);
-// 	}
-// 	return (map);
-// }
-
 void	init_struct(t_game *game)
 {
 	game->mlx = NULL;
 	game->win = NULL;
-	// game->map = NULL;
 	game->img.ptr = NULL;
 	game->north.ptr = NULL;
 	game->east.ptr = NULL;
@@ -345,15 +322,9 @@ int	main(int argc, char **argv)
 	if (!open_file_check(game.file_path))
 		return (printf("Error: File doesn't exist\n"));
 	if (!cub_input_reader(&game))
-		return (1);
+		return (close_game(&game));
 	if (!map_input_reader(&game))
-		return (1);
-	// printf("\nNO(%ld): %s\nSO(%ld): %s\nWE(%ld): %s\nEA(%ld): %s\nF_r: %d\nF_g: %d\nF_b: %d\nC_r: %d\nC_g: %d\nC_b: %d\n",
-    //            ft_strlen(game.no_path),game.no_path,
-	// 		   ft_strlen(game.so_path), game.so_path,
-	// 		   ft_strlen(game.we_path), game.we_path,
-	// 		   ft_strlen(game.ea_path), game.ea_path,
-	// 		   game.f_r, game.f_g, game.f_b, game.c_r, game.c_g, game.c_b);
+		return (close_game(&game));
 	init_struct(&game);
 	init_game(&game);
 	mlx_hook(game.win, 2, 1L << 0, key_pressed, &game);

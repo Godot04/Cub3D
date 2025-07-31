@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:05:19 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/28 14:58:06 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/31 13:21:26 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	player_spawn_search(int *y, int *x, char **map)
 	while (++i < max_y)
 	{
 		j = -1;
-		while (++j < max_x)
+		while (++j < max_x && map[i][j])
 		{
 			if (map[i][j] == 'S' || map[i][j] == 'N'
 				|| map[i][j] == 'E' || map[i][j] == 'W')

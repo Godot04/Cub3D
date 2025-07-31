@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:24:20 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/31 12:28:07 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/31 15:52:42 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	map_input_reader(t_game *game)
 	char	**map;
 	char	*input;
 	char	*first_line;
+	char	*tmp;
 	int		fd;
 	int		fd_count;
 	int		fd_read;
@@ -129,7 +130,9 @@ int	map_input_reader(t_game *game)
 	}
 	close(fd);
 	fd_count = open(game->file_path, O_RDONLY);
-	skip_additional_lines(fd_count);
+	tmp = skip_additional_lines(fd_count);
+	if (tmp)
+		free(tmp);
 	y = lines_counter(fd_count) + 1;
 	close(fd_count);
 	if (y == 0)
@@ -144,7 +147,9 @@ int	map_input_reader(t_game *game)
 		return (0);
 	}
 	fd_read = open(game->file_path, O_RDONLY);
-	skip_additional_lines(fd_read);
+	tmp = skip_additional_lines(fd_read);
+	if (tmp)
+		free(tmp);
 	x = 1;
 	map[0] = first_line;
 	while ((input = read_line(fd_read)) != NULL)
@@ -170,9 +175,6 @@ int	map_input_reader(t_game *game)
 	}
 	map[x] = NULL;
 	close(fd_read);
-	// // debug
-	// for (int y = 0; map[y]; y++)
-	// 		printf("[%d]: %s\n", y, map[y]);
 	if (!is_map_correct(map))
 	{
 		i = -1;
@@ -182,8 +184,5 @@ int	map_input_reader(t_game *game)
 		return (0);
 	}
 	game->map = map;
-	// // debug
-	// for (int y = 0; game->map[y]; y++)
-	// 		printf("[%d]: %s\n", y, game->map[y]);
 	return (1);
 }

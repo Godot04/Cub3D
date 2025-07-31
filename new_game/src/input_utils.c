@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:24:04 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/22 12:24:30 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/31 13:58:10 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*read_line(int fd)
 		return (NULL);
 	}
 	i = 0;
+	ch = '\0';
 	while (read(fd, &ch, 1) > 0 && ch != '\n' && i < MAX_LINE_LEN - 1)
 	{
 		line[i++] = ch;

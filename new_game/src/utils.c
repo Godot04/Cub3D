@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:53 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/31 12:47:08 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/31 15:54:51 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	ft_bzero(void *s, size_t n)
 
 int	close_game(t_game *game)
 {
+	int	i;
+
 	if (game->img.ptr)
 		mlx_destroy_image(game->mlx, game->img.ptr);
 	if (game->north.ptr)
@@ -60,6 +62,13 @@ int	close_game(t_game *game)
 	free(game->so_path);
 	free(game->we_path);
 	free(game->ea_path);
+	if (game->map)
+	{
+		i = -1;
+		while (game->map[++i])
+			free(game->map[i]);
+		free(game->map);
+	}
 	exit(0);
 	return (0);
 }
