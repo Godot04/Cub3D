@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
+/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:55 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/31 15:53:42 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/31 16:03:24 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_struct(t_game *game)
 {
 	game->mlx = NULL;
 	game->win = NULL;
+	game->map = NULL;
 	game->img.ptr = NULL;
 	game->north.ptr = NULL;
 	game->east.ptr = NULL;
@@ -317,6 +318,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (printf("Error: Invalid .cub path\n"));
 	game.file_path = argv[1];
+	init_struct(&game);
 	if (!ft_cub(game.file_path))
 		return (printf("Error: Map file must have a .cub extension\n"));
 	if (!open_file_check(game.file_path))
@@ -325,7 +327,6 @@ int	main(int argc, char **argv)
 		return (close_game(&game));
 	if (!map_input_reader(&game))
 		return (close_game(&game));
-	init_struct(&game);
 	init_game(&game);
 	mlx_hook(game.win, 2, 1L << 0, key_pressed, &game);
 	mlx_hook(game.win, 3, 1L << 1, key_released, &game);

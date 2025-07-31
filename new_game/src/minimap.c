@@ -6,7 +6,7 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:35:08 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/15 17:25:54 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/07/31 16:00:59 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,16 @@ void	draw_minimap(t_game *game, t_player *player)
 		{
 			world_x = start_x + (double)x / MAP_SIZE;
 			world_y = start_y + (double)y / MAP_SIZE;
-			if (game->map[(int)world_y][(int)world_x] == '1')
-				put_pixel(&game->img, x, y, 0x333333);
-			else
-				put_pixel(&game->img, x, y, 0xCCCCCC);
+			int map_y_int = (int)world_y;
+			int map_x_int = (int)world_x;
+			if (map_y_int >= 0 && map_y_int < map_height && \
+				map_x_int >= 0 && map_x_int < (int)ft_strlen(game->map[map_y_int]))
+			{
+				if (game->map[map_y_int][map_x_int] == '1')
+					put_pixel(&game->img, x, y, 0x333333);
+				else if (game->map[map_y_int][map_x_int] != ' ')
+					put_pixel(&game->img, x, y, 0xCCCCCC);
+			}
 			x++;
 		}
 		y++;

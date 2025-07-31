@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
+/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:53 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/31 15:54:51 by opopov           ###   ########.fr       */
+/*   Updated: 2025/07/31 16:02:01 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,14 @@ int	close_game(t_game *game)
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}
-	free(game->no_path);
-	free(game->so_path);
-	free(game->we_path);
-	free(game->ea_path);
+	if (game->no_path)
+		free(game->no_path);
+	if (game->so_path)
+		free(game->so_path);
+	if (game->we_path)
+		free(game->we_path);
+	if (game->ea_path)
+		free(game->ea_path);
 	if (game->map)
 	{
 		i = -1;
