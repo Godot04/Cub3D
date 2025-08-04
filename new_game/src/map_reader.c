@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:24:20 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/31 15:52:42 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/04 14:31:29 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,14 @@ int	map_input_reader(t_game *game)
 	if (y == 0)
 	{
 		printf("Error: Map is empty\n");
+		free(first_line);
 		return (0);
 	}
 	map = malloc((sizeof(char *)) * (y + 1));
 	if (!map)
 	{
 		printf("Error: Map allocation failed\n");
+		free(first_line);
 		return (0);
 	}
 	fd_read = open(game->file_path, O_RDONLY);

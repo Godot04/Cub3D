@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:55 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/31 16:03:24 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/04 14:31:39 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	init_game(t_game *game)
 {
 	int	tex_w;
 	int	tex_h;
-	// game->map = get_map(game);
 	game->crgb = trgb_to_int(0, game->c_r, game->c_g, game->c_b);
 	game->frgb = trgb_to_int(0, game->f_r, game->f_g, game->f_b);
 	game->mlx = mlx_init();
@@ -50,10 +49,11 @@ void	init_game(t_game *game)
 	game->west.ptr = mlx_xpm_file_to_image(game->mlx, game->we_path, &tex_w, &tex_h);
 	if (game->west.ptr)
 		game->west.addr = (int *)mlx_get_data_addr(game->west.ptr, &game->west.bitsinpixel, &game->west.line_bytes, &game->west.endian);
-	// printf("\nNO.ptr: %p\nEA.ptr: %p\nSO.ptr: %p\nWE.ptr: %p\n",
-	// 		game->north.ptr, game->east.ptr, game->south.ptr, game->west.ptr);
 	if (!game->north.ptr || !game->east.ptr || !game->south.ptr || !game->west.ptr)
+	{
+		printf("Error: Invalid texture path\n");
 		close_game(game);
+	}
 	init_player(&game->player, game->map);
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "cub3d");
 	game->img.ptr = mlx_new_image(game->mlx, WIDTH, HEIGHT);

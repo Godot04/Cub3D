@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:05:19 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/31 13:21:26 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/04 14:27:04 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	space_skip(char *str)
 
 int	fill_v(char **map_copy, int y, int x, int width, int height)
 {
-	if (y < 0 || x < 0 || y >= height || x >= width || map_copy[y] == NULL )
+	if (y < 0 || x < 0 || y >= height || x >= width || map_copy[y] == NULL
+		|| x >= (int)ft_strlen(map_copy[y]))
 		return (0);
 	if (map_copy[y][x] == '1' || map_copy[y][x] == 'V')
 		return (1);

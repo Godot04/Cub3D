@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:24:04 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/31 13:58:10 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/04 13:21:13 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,27 @@ char	*read_line(int fd)
 {
 	char	*line;
 	int		i;
-	char	ch;
+	int		ch_read;
 
-	line = malloc(MAX_LINE_LEN);
+	line = malloc(MAX_LINE_LEN + 1);
 	if (!line)
 	{
 		printf("Error: Memory line allocation failed\n");
 		return (NULL);
 	}
-	i = 0;
-	ch = '\0';
-	while (read(fd, &ch, 1) > 0 && ch != '\n' && i < MAX_LINE_LEN - 1)
+	i = -1;
+	while (++i < MAX_LINE_LEN)
 	{
-		line[i++] = ch;
+		ch_read = read(fd, &line[i], 1);
+		if (ch_read <= 0)
+			break ;
+		if (line[i] == '\n')
+		{
+			i++;
+			break ;
+		}
 	}
-	if(!i && ch != '\n')
+	if(!i && ch_read <= 0)
 	{
 		free(line);
 		return (NULL);
