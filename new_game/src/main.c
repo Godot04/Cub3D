@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:55 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/04 14:31:39 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:39:29 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ void	init_struct(t_game *game)
 	game->east.ptr = NULL;
 	game->south.ptr = NULL;
 	game->west.ptr = NULL;
+	game->ea_path = NULL;
+	game->we_path = NULL;
+	game->no_path = NULL;
+	game->so_path = NULL;
+	game->c_r = -1;
+	game->c_g = -1;
+	game->c_b = -1;
+	game->f_r = -1;
+	game->f_g = -1;
+	game->f_b = -1;
 }
 
 void	init_game(t_game *game)

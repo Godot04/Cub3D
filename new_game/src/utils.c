@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:53 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/31 16:02:01 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:43:01 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,7 @@ int	close_game(t_game *game)
 	if (game->ea_path)
 		free(game->ea_path);
 	if (game->map)
-	{
-		i = -1;
-		while (game->map[++i])
-			free(game->map[i]);
-		free(game->map);
-	}
+		map_free(game->map);
 	exit(0);
 	return (0);
 }

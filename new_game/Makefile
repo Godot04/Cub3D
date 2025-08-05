@@ -3,6 +3,7 @@ SRC =	src/main.c \
 		src/utils.c \
 		src/player.c \
 		src/map_reader.c \
+		src/map_reader_utils.c \
 		src/map_checker.c \
 		src/map_utils.c  \
 		src/minimap.c \

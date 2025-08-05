@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:05:19 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/04 14:27:04 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/05 14:38:45 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,18 @@ int	lines_counter(int fd)
 	char	*input;
 
 	y = 0;
-	while ((input = read_line(fd)) != NULL)
+	input = read_line(fd);
+	while (input != NULL)
 	{
 		if (is_line_empty(input))
 		{
 			free(input);
+			input = read_line(fd);
 			continue ;
 		}
 		y++;
 		free(input);
+		input = read_line(fd);
 	}
 	return (y);
 }
@@ -53,21 +56,25 @@ int	space_skip(char *str)
 	return (1);
 }
 
-int	fill_v(char **map_copy, int y, int x, int width, int height)
+int	fill_v(char **map_copy, int y, int x, char **map)
 {
+	int	width;
+	int	height;
+
+	map_xy_count(map, &width, &height);
 	if (y < 0 || x < 0 || y >= height || x >= width || map_copy[y] == NULL
 		|| x >= (int)ft_strlen(map_copy[y]))
 		return (0);
 	if (map_copy[y][x] == '1' || map_copy[y][x] == 'V')
 		return (1);
 	map_copy[y][x] = 'V';
-	if (!fill_v(map_copy, y + 1, x, width, height))
+	if (!fill_v(map_copy, y + 1, x, map))
 		return (0);
-	if (!fill_v(map_copy, y - 1, x, width, height))
+	if (!fill_v(map_copy, y - 1, x, map))
 		return (0);
-	if (!fill_v(map_copy, y, x + 1, width, height))
+	if (!fill_v(map_copy, y, x + 1, map))
 		return (0);
-	if (!fill_v(map_copy, y, x - 1, width, height))
+	if (!fill_v(map_copy, y, x - 1, map))
 		return (0);
 	return (1);
 }

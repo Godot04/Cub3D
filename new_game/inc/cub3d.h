@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/04 13:04:25 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/05 14:40:39 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	map_xy_count(char **map, int *ox, int *oy);
 int		wall_counter(char **map);
 int		is_map_correct(char **map);
 int		player_spawn_search(int *y, int *x, char **map);
-int		fill_v(char **map_copy, int y, int x, int width, int height);
+int		fill_v(char **map_copy, int y, int x, char **map);
 void	put_pixel(t_img *img, int x, int y, int color);
 void	draw_square(int x, int y, int size, int color, t_game *game);
 char	**get_map(t_game *game);
@@ -147,5 +147,16 @@ char	*read_line(int fd);
 int		map_input_reader(t_game *game);
 int		is_line_empty(char *line);
 int		lines_counter(int fd);
+int		cmp_string(t_game *game, char *tmp);
+int		res_check(t_game *game);
+int		rgb_res_check(t_game *game, int *colors, int i, char t);
+int		rgb_number_extract(char **tmp, int *colors, int i);
+int		path_extracter(char **dest, char *term_input);
+int		rgb_extracter(t_game *game, char *term_input, char t);
+int		map_free(char **map);
+int		map_skip_lines(int *fd, char **first_line, t_game *game);
+char	**map_malloc(char *first_line, t_game *game);
+int		map_readline(int fd_read, char **map);
+char	*skip_additional_lines(int fd);
 
 #endif
