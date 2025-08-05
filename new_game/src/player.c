@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
+/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:50:45 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/07/31 12:44:10 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/05 16:58:30 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,54 @@
 
 float	get_x(char **map)
 {
-	for (int y = 0; map[y]; y++)
-		for (int x = 0; map[y][x]; x++)
+	int	x;
+	int	y;
+
+	y = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
 			if (map[y][x] != '0' && map[y][x] != '1')
 				return ((float)x + 0.5);
+			x++;
+		}
+		y++;
+	}
 	return (1.5);
 }
 
 float	get_y(char **map)
 {
-	for (int y = 0; map[y]; y++)
-		for (int x = 0; map[y][x]; x++)
+	int	x;
+	int	y;
+
+	y = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
 			if (map[y][x] != '0' && map[y][x] != '1')
 				return ((float)y + 0.5);
+			x++;
+		}
+		y++;
+	}
 	return (1.5);
 }
 
-void	init_player(t_player *player, char **map)
+void	init_player2(t_player *player, char facing)
 {
-	player->pos_x = get_x(map);
-	player->pos_y = get_y(map);
-	char	facing = map[(int)get_y(map)][(int)get_x(map)];
-	if (facing == 'W')
-	{
-		player->dir_x = -1.0;
-		player->dir_y = 0.0;
-		player->plane_x = 0.0;
-		player->plane_y = -FOV;
-	}
-	else if (facing == 'S')
-	{
-		player->dir_x = 0.0;
-		player->dir_y = 1.0;
-		player->plane_x = -FOV;
-		player->plane_y = 0.0;
-	}
-	else if (facing == 'E')
+	if (facing == 'E')
 	{
 		player->dir_x = 1.0;
 		player->dir_y = 0.0;
 		player->plane_x = 0.0;
 		player->plane_y = FOV;
 	}
-	else
+	if (facing == 'N')
 	{
 		player->dir_x = 0.0;
 		player->dir_y = -1.0;
@@ -69,6 +74,30 @@ void	init_player(t_player *player, char **map)
 	player->key_right = false;
 	player->left_rotate = false;
 	player->right_rotate = false;
+}
+
+void	init_player(t_player *player, char **map)
+{
+	char	facing;
+
+	player->pos_x = get_x(map);
+	player->pos_y = get_y(map);
+	facing = map[(int)get_y(map)][(int)get_x(map)];
+	if (facing == 'W')
+	{
+		player->dir_x = -1.0;
+		player->dir_y = 0.0;
+		player->plane_x = 0.0;
+		player->plane_y = -FOV;
+	}
+	if (facing == 'S')
+	{
+		player->dir_x = 0.0;
+		player->dir_y = 1.0;
+		player->plane_x = -FOV;
+		player->plane_y = 0.0;
+	}
+	init_player2(player, facing);
 }
 
 int	key_pressed(int keycode, t_game *game)
@@ -107,72 +136,46 @@ int	key_released(int keycode, t_game *game)
 	return (0);
 }
 
-void	move_player(t_game *game)
+void	rotate(t_game *game, double r_s)
 {
-	double	move_speed;
-	double	rotation_speed;
-	double	old_dir_x;
-	double	old_plane_x;
-	double	delta_time;
-	double	move_dir_x = 0;
-	double	move_dir_y = 0;
-	double	tmp_x = 0;
-	double	tmp_y = 0;
-	struct timeval	current_frame;
-
-
-	gettimeofday(&current_frame, NULL);
-	delta_time = (current_frame.tv_sec - game->last_frame.tv_sec) + (current_frame.tv_usec - game->last_frame.tv_usec) / 1000000.0;
-	game->last_frame = current_frame;
-
-	move_speed = 3.0 * delta_time;
-	rotation_speed = 2.0 * delta_time;
+	double	dir;
+	double	p;
 
 	if (game->player.left_rotate)
 	{
-		old_dir_x = game->player.dir_x;
-		game->player.dir_x = game->player.dir_x * cos(-rotation_speed) - game->player.dir_y * sin(-rotation_speed);
-		game->player.dir_y = old_dir_x * sin(-rotation_speed) + game->player.dir_y * cos(-rotation_speed);
-		old_plane_x = game->player.plane_x;
-		game->player.plane_x = game->player.plane_x * cos(-rotation_speed) - game->player.plane_y * sin(-rotation_speed);
-		game->player.plane_y = old_plane_x * sin(-rotation_speed) + game->player.plane_y * cos(-rotation_speed);
+		dir = game->player.dir_x;
+		game->player.dir_x = game->player.dir_x * cos(-r_s)
+			- game->player.dir_y * sin(-r_s);
+		game->player.dir_y = dir * sin(-r_s) + game->player.dir_y * cos(-r_s);
+		p = game->player.plane_x;
+		game->player.plane_x = game->player.plane_x * cos(-r_s)
+			- game->player.plane_y * sin(-r_s);
+		game->player.plane_y = p * sin(-r_s) + game->player.plane_y * cos(-r_s);
 	}
 	if (game->player.right_rotate)
 	{
-		old_dir_x = game->player.dir_x;
-		game->player.dir_x = game->player.dir_x * cos(rotation_speed) - game->player.dir_y * sin(rotation_speed);
-		game->player.dir_y = old_dir_x * sin(rotation_speed) + game->player.dir_y * cos(rotation_speed);
-		old_plane_x = game->player.plane_x;
-		game->player.plane_x = game->player.plane_x * cos(rotation_speed) - game->player.plane_y * sin(rotation_speed);
-		game->player.plane_y = old_plane_x * sin(rotation_speed) + game->player.plane_y * cos(rotation_speed);
+		dir = game->player.dir_x;
+		game->player.dir_x = game->player.dir_x * cos(r_s)
+			- game->player.dir_y * sin(r_s);
+		game->player.dir_y = dir * sin(r_s) + game->player.dir_y * cos(r_s);
+		p = game->player.plane_x;
+		game->player.plane_x = game->player.plane_x * cos(r_s)
+			- game->player.plane_y * sin(r_s);
+		game->player.plane_y = p * sin(r_s) + game->player.plane_y * cos(r_s);
 	}
+}
 
-	if (game->player.key_up)
-	{
-		move_dir_x += game->player.dir_x;
-		move_dir_y += game->player.dir_y;
-	}
-	if (game->player.key_down)
-	{
-		move_dir_x -= game->player.dir_x;
-		move_dir_y -= game->player.dir_y;
-	}
-	if (game->player.key_left)
-	{
-		move_dir_x -= game->player.plane_x;
-		move_dir_y -= game->player.plane_y;
-	}
-	if (game->player.key_right)
-	{
-		move_dir_x += game->player.plane_x;
-		move_dir_y += game->player.plane_y;
-	}
+void	collision(t_game *game, double dir_x, double dir_y, double speed)
+{
+	double	len;
+	double	tmp_x;
+	double	tmp_y;
 
-	if ((move_dir_x != 0 || move_dir_y != 0))
+	if ((dir_x != 0 || dir_y != 0))
 	{
-		double	len = sqrt(move_dir_x * move_dir_x + move_dir_y * move_dir_y);
-		tmp_x = game->player.pos_x + (move_dir_x / len) * move_speed;
-		tmp_y = game->player.pos_y + (move_dir_y / len) * move_speed;
+		len = sqrt(dir_x * dir_x + dir_y * dir_y);
+		tmp_x = game->player.pos_x + (dir_x / len) * speed;
+		tmp_y = game->player.pos_y + (dir_y / len) * speed;
 	}
 	else
 		return ;
@@ -188,4 +191,46 @@ void	move_player(t_game *game)
 		else if (!is_wall(game, game->player.pos_x, tmp_y))
 			game->player.pos_y = tmp_y;
 	}
+}
+
+void	move(t_game *game, double dir_x, double dir_y, double speed)
+{
+	if (game->player.key_up)
+	{
+		dir_x += game->player.dir_x;
+		dir_y += game->player.dir_y;
+	}
+	if (game->player.key_down)
+	{
+		dir_x -= game->player.dir_x;
+		dir_y -= game->player.dir_y;
+	}
+	if (game->player.key_left)
+	{
+		dir_x -= game->player.plane_x;
+		dir_y -= game->player.plane_y;
+	}
+	if (game->player.key_right)
+	{
+		dir_x += game->player.plane_x;
+		dir_y += game->player.plane_y;
+	}
+	collision(game, dir_x, dir_y, speed);
+}
+
+void	move_player(t_game *game)
+{
+	double			delta_time;
+	double			move_dir_x;
+	double			move_dir_y;
+	struct timeval	current_frame;
+
+	gettimeofday(&current_frame, NULL);
+	delta_time = (current_frame.tv_sec - game->last_frame.tv_sec)
+		+ (current_frame.tv_usec - game->last_frame.tv_usec) / 1000000.0;
+	game->last_frame = current_frame;
+	rotate(game, delta_time * ROTATION_SPEED);
+	move_dir_x = 0.0;
+	move_dir_y = 0.0;
+	move(game, move_dir_x, move_dir_y, delta_time * MOVE_SPEED);
 }
