@@ -1,6 +1,7 @@
 NAME = cub3d
 SRC =	src/main.c \
 		src/utils.c \
+		src/utils_for_utils.c \
 		src/player.c \
 		src/map_reader.c \
 		src/map_reader_utils.c \

@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:55 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/04 15:39:29 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/05 14:57:37 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,17 @@ void	init_struct(t_game *game)
 
 void	init_game(t_game *game)
 {
-	int	tex_w;
-	int	tex_h;
-	game->crgb = trgb_to_int(0, game->c_r, game->c_g, game->c_b);
-	game->frgb = trgb_to_int(0, game->f_r, game->f_g, game->f_b);
 	game->mlx = mlx_init();
-	game->north.ptr = mlx_xpm_file_to_image(game->mlx, game->no_path, &tex_w, &tex_h);
+	game->north.ptr = mlx_xpm_file_to_image(game->mlx, game->no_path, &game->tex_w, &game->tex_h);
 	if (game->north.ptr)
 		game->north.addr = (int *)mlx_get_data_addr(game->north.ptr, &game->north.bitsinpixel, &game->north.line_bytes, &game->north.endian);
-	game->east.ptr = mlx_xpm_file_to_image(game->mlx, game->ea_path, &tex_w, &tex_h);
+	game->east.ptr = mlx_xpm_file_to_image(game->mlx, game->ea_path, &game->tex_w, &game->tex_h);
 	if (game->east.ptr)
 		game->east.addr = (int *)mlx_get_data_addr(game->east.ptr, &game->east.bitsinpixel, &game->east.line_bytes, &game->east.endian);
-	game->south.ptr = mlx_xpm_file_to_image(game->mlx, game->so_path, &tex_w, &tex_h);
+	game->south.ptr = mlx_xpm_file_to_image(game->mlx, game->so_path, &game->tex_w, &game->tex_h);
 	if (game->south.ptr)
 		game->south.addr = (int *)mlx_get_data_addr(game->south.ptr, &game->south.bitsinpixel, &game->south.line_bytes, &game->south.endian);
-	game->west.ptr = mlx_xpm_file_to_image(game->mlx, game->we_path, &tex_w, &tex_h);
+	game->west.ptr = mlx_xpm_file_to_image(game->mlx, game->we_path, &game->tex_w, &game->tex_h);
 	if (game->west.ptr)
 		game->west.addr = (int *)mlx_get_data_addr(game->west.ptr, &game->west.bitsinpixel, &game->west.line_bytes, &game->west.endian);
 	if (!game->north.ptr || !game->east.ptr || !game->south.ptr || !game->west.ptr)

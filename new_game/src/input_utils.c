@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:24:04 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/05 10:49:08 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/05 14:55:27 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int	rgb_res_check(t_game *game, int *colors, int i, char t)
 		game->f_g = colors[1];
 		game->f_b = colors[2];
 	}
+	game->crgb = trgb_to_int(0, game->c_r, game->c_g, game->c_b);
+	game->frgb = trgb_to_int(0, game->f_r, game->f_g, game->f_b);
 	return (1);
 }
 
