@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 13:21:06 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/05 14:21:58 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/05 17:06:56 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	map_skip_lines(int *fd, char **first_line, t_game *game)
 
 char	**map_malloc(char *first_line, t_game *game)
 {
-	int		y;
 	char	**map;
 	int		fd_tmp;
 	char	*tmp;
@@ -36,15 +35,15 @@ char	**map_malloc(char *first_line, t_game *game)
 	tmp = skip_additional_lines(fd_tmp);
 	if (tmp)
 		free(tmp);
-	y = lines_counter(fd_tmp) + 1;
+	game->max_y = lines_counter(fd_tmp) + 1;
 	close(fd_tmp);
-	if (y == 0)
+	if (game->max_y == 0)
 	{
 		printf("Error: Map is empty\n");
 		free(first_line);
 		return (NULL);
 	}
-	map = malloc((sizeof(char *)) * (y + 1));
+	map = ft_calloc(game->max_y + 1, sizeof(char *));
 	if (!map)
 	{
 		printf("Error: Map allocation failed\n");
@@ -54,31 +53,31 @@ char	**map_malloc(char *first_line, t_game *game)
 	return (map);
 }
 
-int	map_readline(int fd_read, char **map)
+int	map_readline(int fd_read, char **map, t_game *game)
 {
 	char	*input;
 	int		x;
 
 	x = 1;
 	input = read_line(fd_read);
-	while (input != NULL)
+	while (input != NULL && x < game->max_y)
 	{
 		if (is_line_empty(input))
 		{
-			free(input);
-			input = read_line(fd_read);
-			continue ;
+			printf("Error: Newline between the elements of the map\n");
+			map[x] = NULL;
+			return (free(input), map_free(map));
 		}
 		map[x] = ft_strdup(input);
 		if (!map[x])
-		{
-			printf("Error: Map allocation failed\n");
-			return (free(input), close(fd_read), (map_free(map)));
-		}
+			return (printf("Error: Map allocation failed\n"),
+					free(input), (map_free(map)));
 		x++;
 		free(input);
 		input = read_line(fd_read);
 	}
+	if (input)
+		free(input);
 	map[x] = NULL;
 	return (1);
 }

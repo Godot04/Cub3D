@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:24:20 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/05 14:19:48 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/05 16:54:22 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	map_input_reader(t_game *game)
 		close(fd_read);
 		return (0);
 	}
-	if (!map_readline(fd_read, map))
+	if (!map_readline(fd_read, map, game))
 	{
 		close(fd_read);
 		return (0);

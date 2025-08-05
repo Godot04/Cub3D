@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:58:10 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/05 14:36:44 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/05 16:28:57 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,15 @@ int	map_free(char **map)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (map)
 	{
-		while (map[++i])
+		while (map[i])
+		{
 			free(map[i]);
+			map[i] = NULL;
+			i++;
+		}
 		free(map);
 	}
 	return (0);

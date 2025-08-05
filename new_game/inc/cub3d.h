@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/05 15:47:19 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/05 16:57:20 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct	s_game
 	int				f_b;
 	int				tex_w;
 	int				tex_h;
+	int				max_y;
 	struct timeval	last_frame;
 	t_img			north;
 	t_img			east;
@@ -158,7 +159,7 @@ int		rgb_extracter(t_game *game, char *term_input, char t);
 int		map_free(char **map);
 int		map_skip_lines(int *fd, char **first_line, t_game *game);
 char	**map_malloc(char *first_line, t_game *game);
-int		map_readline(int fd_read, char **map);
+int		map_readline(int fd_read, char **map, t_game *game);
 char	*skip_additional_lines(int fd);
 void	angles_declaration(float angles[8]);
 void	clean_path(t_game *game);
