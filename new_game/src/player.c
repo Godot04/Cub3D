@@ -6,7 +6,7 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:50:45 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 11:50:29 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/06 13:20:05 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ void	move_player(t_game *game)
 	delta_time = (current_frame.tv_sec - game->last_frame.tv_sec)
 		+ (current_frame.tv_usec - game->last_frame.tv_usec) / 1000000.0;
 	game->last_frame = current_frame;
+	if (VALGRIND)
+		delta_time = 0.1;
 	rotate(game, delta_time * ROTATION_SPEED);
 	move_dir_x = 0.0;
 	move_dir_y = 0.0;

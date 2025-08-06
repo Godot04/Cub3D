@@ -6,7 +6,7 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 11:51:28 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 11:52:57 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/06 12:53:07 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	draw_map(t_game *game)
 	int	y;
 	int	xy[2];
 
-	y = 0;
-	while (game->map[y])
+	y = -1;
+	while (game->map[++y])
 	{
-		x = 0;
-		while (game->map[y][x])
+		x = -1;
+		while (game->map[y][++x])
 		{
 			if (game->map[y][x] == '1')
 			{
@@ -48,9 +48,13 @@ void	draw_map(t_game *game)
 				xy[Y] = y * BLOCK_SIZE;
 				draw_square(xy, BLOCK_SIZE, 0xFF0000, game);
 			}
-			x++;
+			if (game->map[y][x] == '0')
+			{
+				xy[X] = x * BLOCK_SIZE;
+				xy[Y] = y * BLOCK_SIZE;
+				draw_square(xy, BLOCK_SIZE, 0xAAAAAA, game);
+			}
 		}
-		y++;
 	}
 }
 
