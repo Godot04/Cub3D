@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
+/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:53 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 11:55:04 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/06 13:51:27 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,6 @@ int	ft_isspace(char c)
 		|| c == '\v' || c == '\f' || c == '\r')
 		return (1);
 	return (0);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*ptr;
-
-	ptr = (unsigned char *)s;
-	while (n--)
-	{
-		*ptr = 0;
-		ptr++;
-	}
 }
 
 int	trgb_to_int(int t, int r, int g, int b)

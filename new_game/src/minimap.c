@@ -6,21 +6,11 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:35:08 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 13:03:13 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/06 13:45:21 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
-
-int	get_height(char **map)
-{
-	int	y;
-
-	y = 0;
-	while (map[y])
-		y++;
-	return (y);
-}
 
 void	draw_mini(t_game *game, int xy[2], double start[2], int map[2])
 {

@@ -6,7 +6,7 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 13:29:48 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/06 13:51:40 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,57 +140,66 @@ typedef struct s_rc
 	double	end[2];
 }				t_rc;
 
-int		trgb_to_int(int t, int r, int g, int b);
-void	ft_bzero(void *s, size_t n);
-int		close_game(t_game *game);
+void	draw_square(int xy[2], int size, int color, t_game *game);
+void	draw_map(t_game *game);
+void	draw_line(t_game *game, t_rc *rc);
+void	draw_ceiling_and_floor(t_game *game);
+void	draw_texture(t_game *game, t_rc *rc, int x);
 
 void	init_player(t_player *player, char **map);
 int		key_pressed(int keycode, t_game *game);
 int		key_released(int keycode, t_game *game);
-void	move_player(t_game *game);
-int		is_wall(t_game *data, float x, float y);
-int		ft_isspace(char c);
-void	map_fill(char **map);
-void	map_xy_count(char **map, int *ox, int *oy);
-int		wall_counter(char **map);
-int		is_map_correct(char **map);
-int		player_spawn_search(int *y, int *x, char **map);
-int		fill_v(char **map_copy, int y, int x, char **map);
-void	put_pixel(t_img *img, int x, int y, int color);
-void	draw_square(int xy[2], int size, int color, t_game *game);
-char	**get_map(t_game *game);
-void	draw_minimap(t_game *game, t_player *player);
-size_t	ft_strlen(const char *s);
-int		get_height(char **map);
-int		cub_input_reader(t_game *game);
-int		space_skip(char *str);
-int		ft_cub(char *file_path);
+
 int		open_file_check(char *file_path);
+int		ft_cub(char *file_path);
+
+int		rgb_extracter(t_game *game, char *term_input, char t);
+int		path_extracter(char **dest, char *term_input);
+int		cub_input_reader(t_game *game);
+
 char	*read_line(int fd);
-int		map_input_reader(t_game *game);
-int		is_line_empty(char *line);
-int		lines_counter(int fd);
 int		cmp_string(t_game *game, char *tmp);
 int		res_check(t_game *game);
 int		rgb_res_check(t_game *game, int *colors, int i, char t);
 int		rgb_number_extract(char **tmp, int *colors, int i);
-int		path_extracter(char **dest, char *term_input);
-int		rgb_extracter(t_game *game, char *term_input, char t);
+
+void	put_pixel(t_img *img, int x, int y, int color);
+
 int		map_free(char **map);
+int		is_map_correct(char **map);
+
 int		map_skip_lines(int *fd, char **first_line, t_game *game);
 char	**map_malloc(char *first_line, t_game *game);
 int		map_readline(int fd_read, char **map, t_game *game);
+
+int		wall_counter(char **map);
+void	map_xy_count(char **map, int *ox, int *oy);
+void	map_fill(char **map);
 char	*skip_additional_lines(int fd);
+int		map_input_reader(t_game *game);
+
+int		lines_counter(int fd);
+int		is_line_empty(char *line);
+int		space_skip(char *str);
+int		fill_v(char **map_copy, int y, int x, char **map);
+int		player_spawn_search(int *y, int *x, char **map);
+
+void	draw_minimap(t_game *game, t_player *player);
+
+void	move_player(t_game *game);
+
+void	ray_caster(t_game *game);
+
 void	angles_declaration(float angles[8]);
 void	clean_path(t_game *game);
 void	clean_ptrs(t_game *game);
-void	ray_caster(t_game *game);
-void	draw_map(t_game *game);
 void	init_game_ptrs(t_game *game);
-void	init_player(t_player *player, char **map);
-void	draw_texture(t_game *game, t_rc *rc, int x);
-void	draw_ceiling_and_floor(t_game *game);
-void	draw_line(t_game *game, t_rc *rc);
 int		is_line_contains_digit(char *line);
+
+int		ft_isspace(char c);
+int		trgb_to_int(int t, int r, int g, int b);
+int		close_game(t_game *game);
+int		is_wall(t_game *data, float x, float y);
+
 
 #endif
