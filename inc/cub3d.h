@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 13:54:15 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/06 14:08:17 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 
 # include "mlx/mlx.h"
-# include "../../inc/Libft/libft.h"
+# include "Libft/libft.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>

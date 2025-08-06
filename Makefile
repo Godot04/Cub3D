@@ -22,7 +22,7 @@ MLX_DIR = inc/mlx
 MLX_LIB = $(MLX_DIR)/libmlx_Linux.a
 MLX_FLAGS = -L$(MLX_DIR) -lmlx_Linux -lX11 -lXext -lm
 
-LIBFT_DIR = ../inc/Libft
+LIBFT_DIR = inc/Libft
 LIBFT_LIB = $(LIBFT_DIR)/libft.a
 
 INCLUDES = -I$(LIBFT_DIR) -I$(MLX_DIR)
