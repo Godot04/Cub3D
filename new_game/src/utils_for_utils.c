@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:08:08 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/06 11:55:07 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/06 13:22:17 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,18 @@ void	init_game_ptrs(t_game *game)
 		game->west.addr = (int *)mlx_get_data_addr
 			(game->west.ptr, &game->west.bitsinpixel,
 				&game->west.line_bytes, &game->west.endian);
+}
+
+int	is_line_contains_digit(char *line)
+{
+	char	*tmp;
+
+	tmp = ft_strtrim(line, " \t\n\r\f\v");
+	if (*tmp == '1' || *tmp == '0')
+	{
+		free(tmp);
+		return (1);
+	}
+	free(tmp);
+	return (0);
 }

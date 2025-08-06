@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 12:00:20 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/06 13:06:08 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,5 +198,6 @@ void	init_player(t_player *player, char **map);
 void	draw_texture(t_game *game, t_rc *rc, int x);
 void	draw_ceiling_and_floor(t_game *game);
 void	draw_line(t_game *game, t_rc *rc);
+int		is_line_contains_digit(char *line);
 
 #endif
