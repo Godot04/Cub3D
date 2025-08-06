@@ -6,7 +6,7 @@
 /*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/05 17:01:38 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/06 11:52:33 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,5 +176,9 @@ int		is_line_empty(char *line);
 int		lines_counter(int fd);
 void	ray_caster(t_game *game);
 void	draw_map(t_game *game);
+void	init_player(t_player *player, char **map);
+void	draw_texture(t_game *game, t_rc *rc, int x);
+void	draw_ceiling_and_floor(t_game *game);
+void	draw_line(t_game *game, t_rc *rc);
 
 #endif
