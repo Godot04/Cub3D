@@ -1,4 +1,4 @@
-NAME = cub3d
+NAME = Cub3D
 SRC =	src/main.c \
 		src/utils.c \
 		src/utils_for_utils.c \

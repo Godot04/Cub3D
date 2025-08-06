@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:24:04 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/05 14:55:27 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/06 13:20:20 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,22 @@ char	*read_line(int fd)
 int	cmp_string(t_game *game, char *tmp)
 {
 	if (!ft_strncmp(tmp, "NO ", 3))
-		if (!path_extracter(&game->no_path, tmp))
-			return (0);
-	if (!ft_strncmp(tmp, "SO ", 3))
-		if (!path_extracter(&game->so_path, tmp))
-			return (0);
-	if (!ft_strncmp(tmp, "WE ", 3))
-		if (!path_extracter(&game->we_path, tmp))
-			return (0);
-	if (!ft_strncmp(tmp, "EA ", 3))
-		if (!path_extracter(&game->ea_path, tmp))
-			return (0);
-	if (!ft_strncmp(tmp, "F ", 2))
-		if (!rgb_extracter(game, tmp, 'F'))
-			return (0);
-	if (!ft_strncmp(tmp, "C ", 2))
-		if (!rgb_extracter(game, tmp, 'C'))
-			return (0);
+		return (path_extracter(&game->no_path, tmp));
+	else if (!ft_strncmp(tmp, "SO ", 3))
+		return (path_extracter(&game->so_path, tmp));
+	else if (!ft_strncmp(tmp, "WE ", 3))
+		return (path_extracter(&game->we_path, tmp));
+	else if (!ft_strncmp(tmp, "EA ", 3))
+		return (path_extracter(&game->ea_path, tmp));
+	else if (!ft_strncmp(tmp, "F ", 2))
+		return (rgb_extracter(game, tmp, 'F'));
+	else if (!ft_strncmp(tmp, "C ", 2))
+		return (rgb_extracter(game, tmp, 'C'));
+	else if (!is_line_empty(tmp) && !is_line_contains_digit(tmp))
+	{
+		printf("Error: Incorrect element format\n");
+		return (0);
+	}
 	return (1);
 }
 
