@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   input_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/15 11:57:27 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/04 13:13:10 by opopov           ###   ########.fr       */
+/*   Created: 2025/07/21 16:41:55 by opopov            #+#    #+#             */
+/*   Updated: 2025/07/22 12:24:47 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/cub3d.h"
 
-char	*ft_strdup(const char *s)
+int	open_file_check(char *file_path)
 {
-	char	*s1;
-	size_t	a;
+	int		fd;
 
-	a = 0;
-	while (s[a] != '\0')
-	{
-		a++;
-	}
-	s1 = (char *)malloc((a + 1) * sizeof(char));
-	if (s1 == NULL)
-	{
-		return (NULL);
-	}
-	a = 0;
-	while (s[a] != '\0')
-	{
-		s1[a] = s[a];
-		a++;
-	}
-	s1[a] = '\0';
-	return (s1);
+	fd = open(file_path, O_RDONLY);
+	if (fd == -1)
+		return (0);
+	close(fd);
+	return (1);
+}
+
+int	ft_cub(char *file_path)
+{
+	char	*tmp;
+
+	tmp = ft_strrchr(file_path, '.');
+	if (tmp && ft_strncmp(tmp, ".cub", ft_strlen(tmp)) != 0)
+		return (0);
+	return (1);
 }
