@@ -11,7 +11,9 @@ SRC =	src/main.c \
 		src/input_reader.c \
 		src/input_checker.c \
 		src/input_utils.c \
-		src/raycaster.c
+		src/raycaster.c \
+		src/draw.c \
+		src/init_player.c
 OBJ = $(SRC:.c=.o)
 CC = gcc
 

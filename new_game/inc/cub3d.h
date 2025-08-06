@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
+/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 12:00:20 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/06 13:20:46 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define DEBUG 0
 # define MINIMAP 1
 # define TEXTURE 1
+# define VALGRIND 0
 
 # define X 0
 # define Y 1
@@ -48,7 +49,7 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
-# define BLOCK_SIZE 64
+# define BLOCK_SIZE 48
 # define PLAYER_SIZE 16
 # define COLLISION_RADIUS 0.25
 # define FOV 0.66
@@ -58,16 +59,8 @@
 # define SOUTH 0xFFFF00
 # define WEST 0x00FFFF
 
-# define PATH_NORTH "textures/north_wall.xpm"
-# define PATH_EAST "textures/east_wall.xpm"
-# define PATH_SOUTH "textures/south_wall.xpm"
-# define PATH_WEST "textures/west_wall.xpm"
-
-# define TEXTURE_WIDTH 64
-# define TEXTURE_HEIGHT 64
-
-# define MAX_MAP_WIDTH 11
-# define MAX_MAP_HEIGHT 7
+# define MAX_MAP_WIDTH 12
+# define MAX_MAP_HEIGHT 8
 # define MAP_SIZE 32
 
 typedef struct s_player
