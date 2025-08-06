@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 11:54:10 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/06 12:00:20 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,5 +194,9 @@ void	clean_ptrs(t_game *game);
 void	ray_caster(t_game *game);
 void	draw_map(t_game *game);
 void	init_game_ptrs(t_game *game);
+void	init_player(t_player *player, char **map);
+void	draw_texture(t_game *game, t_rc *rc, int x);
+void	draw_ceiling_and_floor(t_game *game);
+void	draw_line(t_game *game, t_rc *rc);
 
 #endif
