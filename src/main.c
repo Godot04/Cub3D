@@ -5,103 +5,103 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 12:28:25 by opopov            #+#    #+#             */
-/*   Updated: 2025/07/07 17:26:26 by opopov           ###   ########.fr       */
+/*   Created: 2025/07/11 13:50:55 by silpaukn          #+#    #+#             */
+/*   Updated: 2025/08/06 11:53:10 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../inc/cub3d.h"
 
-void	window_create(t_data *data)
+void	put_pixel(t_img *img, int x, int y, int color)
 {
-	data->mlx = mlx_init();
-	data->window = mlx_new_window(data->mlx, 800, 800, "Cub3D");
+	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+		img->addr[y * WIDTH + x] = color;
 }
 
-int	close_window(t_data *data)
+void	init_struct(t_game *game)
 {
-	if (data->background)
-		mlx_destroy_image(data->mlx, data->background);
-	mlx_destroy_window(data->mlx, data->window);
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
-	exit(0);
+	game->mlx = NULL;
+	game->win = NULL;
+	game->map = NULL;
+	game->img.ptr = NULL;
+	game->north.ptr = NULL;
+	game->east.ptr = NULL;
+	game->south.ptr = NULL;
+	game->west.ptr = NULL;
+	game->ea_path = NULL;
+	game->we_path = NULL;
+	game->no_path = NULL;
+	game->so_path = NULL;
+	game->c_r = -1;
+	game->c_g = -1;
+	game->c_b = -1;
+	game->f_r = -1;
+	game->f_g = -1;
+	game->f_b = -1;
+}
+
+void	init_game(t_game *game)
+{
+	game->mlx = mlx_init();
+	init_game_ptrs(game);
+	if (!game->north.ptr || !game->east.ptr
+		|| !game->south.ptr || !game->west.ptr)
+	{
+		printf("Error: Invalid texture path\n");
+		close_game(game);
+	}
+	init_player(&game->player, game->map);
+	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "cub3d");
+	game->img.ptr = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+	game->img.addr = (int *)mlx_get_data_addr
+		(game->img.ptr, &game->img.bitsinpixel,
+			&game->img.line_bytes, &game->img.endian);
+	gettimeofday(&game->last_frame, NULL);
+	mlx_put_image_to_window(game->mlx, game->win, game->img.ptr, 0, 0);
+}
+
+int	game_loop(t_game *game)
+{
+	int	xy[2];
+
+	ft_bzero(game->img.addr, WIDTH * HEIGHT * sizeof(int));
+	move_player(game);
+	if (DEBUG)
+		draw_map(game);
+	ray_caster(game);
+	if (DEBUG)
+	{
+		xy[X] = game->player.pos_x * BLOCK_SIZE - PLAYER_SIZE / 2;
+		xy[Y] = game->player.pos_y * BLOCK_SIZE - PLAYER_SIZE / 2;
+		draw_square(xy, PLAYER_SIZE, trgb_to_int(0, 128, 255, 128), game);
+	}
+	else if (MINIMAP)
+		draw_minimap(game, &game->player);
+	mlx_put_image_to_window(game->mlx, game->win, game->img.ptr, 0, 0);
 	return (0);
 }
 
-void	background_draw(t_data *data)
+int	main(int argc, char **argv)
 {
-	int	i;
-	int	*img_data;
+	t_game	game;
 
-	if (!data->background)
-	{
-		data->background = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-		img_data = (int *)mlx_get_data_addr(data->background, &data->bits_per_pixel,
-											&data->line_length, &data->endian);
-		data->background_width = WINDOW_WIDTH;
-		data->background_height = WINDOW_HEIGHT;
-		i = 0;
-		while (i < WINDOW_HEIGHT * WINDOW_WIDTH)
-		{
-			img_data[i] = GREY;
-			i++;
-		}
-	}
-	mlx_put_image_to_window(data->mlx, data->window, data->background, 0, 0);
-}
-
-void	player_draw(t_data *data)
-{
-	int	*img_data;
-	int	start_x;
-	int	start_y;
-	int	x;
-	int	y;
-	int	pixel_pos;
-
-	img_data = (int *)mlx_get_data_addr(data->background, &data->bits_per_pixel,
-										&data->line_length, &data->endian);
-	start_x = data->px;
-	start_y = data->py;
-	y = 0;
-	while (y < data->p_height)
-	{
-		x = 0;
-		while (x < data->p_width)
-		{
-			pixel_pos = (start_y + y) * (data->line_length / 4) + (start_x + x);
-			if (pixel_pos < WINDOW_WIDTH * WINDOW_HEIGHT)
-				img_data[pixel_pos] = data->p_color;
-			x++;
-		}
-		y++;
-	}
-	mlx_put_image_to_window(data->mlx, data->window, data->background, 0, 0);
-}
-
-void	initialize_properties(t_data *data)
-{
-	data->px = WINDOW_WIDTH / 2 - PLAYER_SIZE / 2;
-	data->py = WINDOW_HEIGHT / 2 - PLAYER_SIZE / 2;
-	data->p_width = PLAYER_SIZE;
-	data->p_height = PLAYER_SIZE;
-	data->p_color = YELLOW;
-	data->background = NULL;
-	data->bits_per_pixel = 0;
-	data->line_length = 0;
-	data->endian = 0;
-}
-
-int	main()
-{
-	t_data	data;
-
-	window_create(&data);
-	initialize_properties(&data);
-	background_draw(&data);
-	player_draw(&data);
-	mlx_hook(data.window, 17, 0, close_window, &data);
-	mlx_loop(data.mlx);
+	if (argc != 2)
+		return (printf("Error: Invalid .cub path\n"));
+	game.file_path = argv[1];
+	init_struct(&game);
+	if (!ft_cub(game.file_path))
+		return (printf("Error: Map file must have a .cub extension\n"));
+	if (!open_file_check(game.file_path))
+		return (printf("Error: File doesn't exist\n"));
+	if (!cub_input_reader(&game))
+		return (close_game(&game));
+	if (!map_input_reader(&game))
+		return (close_game(&game));
+	init_game(&game);
+	mlx_hook(game.win, 2, 1L << 0, key_pressed, &game);
+	mlx_hook(game.win, 3, 1L << 1, key_released, &game);
+	mlx_hook(game.win, 17, 0, close_game, &game);
+	mlx_loop_hook(game.mlx, game_loop, &game);
+	mlx_loop(game.mlx);
 	return (0);
 }
