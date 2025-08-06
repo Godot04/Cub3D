@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 13:21:06 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/05 17:06:56 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/06 11:54:49 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	map_readline(int fd_read, char **map, t_game *game)
 		map[x] = ft_strdup(input);
 		if (!map[x])
 			return (printf("Error: Map allocation failed\n"),
-					free(input), (map_free(map)));
+				free(input), (map_free(map)));
 		x++;
 		free(input);
 		input = read_line(fd_read);

@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:08:08 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/05 15:45:38 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/06 11:55:07 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,33 @@ void	clean_ptrs(t_game *game)
 		mlx_destroy_image(game->mlx, game->south.ptr);
 	if (game->west.ptr)
 		mlx_destroy_image(game->mlx, game->west.ptr);
+}
+
+void	init_game_ptrs(t_game *game)
+{
+	game->north.ptr = mlx_xpm_file_to_image
+		(game->mlx, game->no_path, &game->north.width, &game->north.height);
+	if (game->north.ptr)
+		game->north.addr = (int *)mlx_get_data_addr
+			(game->north.ptr, &game->north.bitsinpixel,
+				&game->north.line_bytes, &game->north.endian);
+	game->east.ptr = mlx_xpm_file_to_image
+		(game->mlx, game->ea_path,
+			&game->east.width, &game->east.height);
+	if (game->east.ptr)
+		game->east.addr = (int *)mlx_get_data_addr
+			(game->east.ptr, &game->east.bitsinpixel,
+				&game->east.line_bytes, &game->east.endian);
+	game->south.ptr = mlx_xpm_file_to_image(game->mlx, game->so_path,
+			&game->south.width, &game->south.height);
+	if (game->south.ptr)
+		game->south.addr = (int *)mlx_get_data_addr
+			(game->south.ptr, &game->south.bitsinpixel,
+				&game->south.line_bytes, &game->south.endian);
+	game->west.ptr = mlx_xpm_file_to_image
+		(game->mlx, game->we_path, &game->west.width, &game->west.height);
+	if (game->west.ptr)
+		game->west.addr = (int *)mlx_get_data_addr
+			(game->west.ptr, &game->west.bitsinpixel,
+				&game->west.line_bytes, &game->west.endian);
 }

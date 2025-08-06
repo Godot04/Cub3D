@@ -6,65 +6,71 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/05 16:57:20 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/06 11:54:10 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-#define CUB3D_H
+# define CUB3D_H
 
-#include "mlx/mlx.h"
-#include "../../inc/Libft/libft.h"
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <sys/time.h>
-#include <limits.h>
-#include <string.h>
-#include <fcntl.h>
+# include "mlx/mlx.h"
+# include "../../inc/Libft/libft.h"
+# include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <sys/time.h>
+# include <limits.h>
+# include <string.h>
+# include <fcntl.h>
 
-#define MAX_LINE_LEN 1024
+# define MAX_LINE_LEN 1024
 
-#define W 119
-#define A 97
-#define S 115
-#define D 100
-#define LEFT 65361
-#define RIGHT 65363
-#define ESC 65307
+# define W 119
+# define A 97
+# define S 115
+# define D 100
+# define LEFT 65361
+# define RIGHT 65363
+# define ESC 65307
 
-#define DEBUG 0
-#define MINIMAP 1
-#define TEXTURE 1
+# define DEBUG 0
+# define MINIMAP 1
+# define TEXTURE 1
 
-#define PI 3.14159265359
+# define X 0
+# define Y 1
 
-#define WIDTH 1920
-#define HEIGHT 1080
-#define BLOCK_SIZE 96
-#define PLAYER_SIZE 16
-#define COLLISION_RADIUS 0.3
-#define FOV 0.66
+# define ROTATION_SPEED 2.0
+# define MOVE_SPEED 3.0
 
-#define NORTH 0xFF00FF
-#define EAST 0x00FF00
-#define SOUTH 0xFFFF00
-#define WEST 0x00FFFF
+# define PI 3.14159265359
 
-#define PATH_NORTH "textures/north_wall.xpm"
-#define PATH_EAST "textures/east_wall.xpm"
-#define PATH_SOUTH "textures/south_wall.xpm"
-#define PATH_WEST "textures/west_wall.xpm"
+# define WIDTH 1920
+# define HEIGHT 1080
+# define BLOCK_SIZE 64
+# define PLAYER_SIZE 16
+# define COLLISION_RADIUS 0.25
+# define FOV 0.66
 
-#define TEXTURE_WIDTH 64
-#define TEXTURE_HEIGHT 64
+# define NORTH 0xFF00FF
+# define EAST 0x00FF00
+# define SOUTH 0xFFFF00
+# define WEST 0x00FFFF
 
-#define MAX_MAP_WIDTH 10
-#define MAX_MAP_HEIGHT 7
-#define MAP_SIZE 32
+# define PATH_NORTH "textures/north_wall.xpm"
+# define PATH_EAST "textures/east_wall.xpm"
+# define PATH_SOUTH "textures/south_wall.xpm"
+# define PATH_WEST "textures/west_wall.xpm"
 
-typedef struct	s_player
+# define TEXTURE_WIDTH 64
+# define TEXTURE_HEIGHT 64
+
+# define MAX_MAP_WIDTH 11
+# define MAX_MAP_HEIGHT 7
+# define MAP_SIZE 32
+
+typedef struct s_player
 {
 	double	pos_x;
 	double	pos_y;
@@ -81,16 +87,18 @@ typedef struct	s_player
 	bool	right_rotate;
 }				t_player;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*ptr;
 	int		*addr;
 	int		bitsinpixel;
 	int		line_bytes;
 	int		endian;
+	int		width;
+	int		height;
 }				t_img;
 
-typedef struct	s_game
+typedef struct s_game
 {
 	void			*mlx;
 	void			*win;
@@ -120,6 +128,25 @@ typedef struct	s_game
 	char			*ea_path;
 }				t_game;
 
+typedef struct s_rc
+{
+	double	cam_x;
+	double	ray[2];
+	int		map[2];
+	double	side[2];
+	double	delta[2];
+	int		step[2];
+	int		face;
+	double	perp_dist;
+	double	hit[2];
+	int		line_height;
+	int		draw[2];
+	double	wall_x;
+	int		tex_x;
+	double	start[2];
+	double	end[2];
+}				t_rc;
+
 int		trgb_to_int(int t, int r, int g, int b);
 void	ft_bzero(void *s, size_t n);
 int		close_game(t_game *game);
@@ -137,7 +164,7 @@ int		is_map_correct(char **map);
 int		player_spawn_search(int *y, int *x, char **map);
 int		fill_v(char **map_copy, int y, int x, char **map);
 void	put_pixel(t_img *img, int x, int y, int color);
-void	draw_square(int x, int y, int size, int color, t_game *game);
+void	draw_square(int xy[2], int size, int color, t_game *game);
 char	**get_map(t_game *game);
 void	draw_minimap(t_game *game, t_player *player);
 size_t	ft_strlen(const char *s);
@@ -164,6 +191,8 @@ char	*skip_additional_lines(int fd);
 void	angles_declaration(float angles[8]);
 void	clean_path(t_game *game);
 void	clean_ptrs(t_game *game);
-
+void	ray_caster(t_game *game);
+void	draw_map(t_game *game);
+void	init_game_ptrs(t_game *game);
 
 #endif
