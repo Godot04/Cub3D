@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 13:51:40 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/06 13:54:15 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,5 @@ int		ft_isspace(char c);
 int		trgb_to_int(int t, int r, int g, int b);
 int		close_game(t_game *game);
 int		is_wall(t_game *data, float x, float y);
-
 
 #endif
