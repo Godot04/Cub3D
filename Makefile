@@ -52,4 +52,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus: CFLAGS += -DMINIMAP=1
+bonus: all
+
+.PHONY: all clean fclean re bonus
