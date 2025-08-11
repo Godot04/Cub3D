@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:24:04 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/06 13:20:20 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/07 10:26:59 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	rgb_res_check(t_game *game, int *colors, int i, char t)
 int	rgb_number_extract(char **tmp, int *colors, int i)
 {
 	int		j;
-	char	atoi_tmp[3];
+	char	atoi_tmp[4];
 
 	j = 0;
 	while ((*tmp)[j] && !ft_isspace((*tmp)[j]) && (*tmp)[j] != ',' && j < 3)

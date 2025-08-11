@@ -1,4 +1,4 @@
-NAME = Cub3D
+NAME = cub3D
 SRC =	src/main.c \
 		src/utils.c \
 		src/utils_for_utils.c \
@@ -15,9 +15,9 @@ SRC =	src/main.c \
 		src/draw.c \
 		src/init_player.c
 OBJ = $(SRC:.c=.o)
-CC = gcc
+CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 MLX_DIR = inc/mlx
 MLX_LIB = $(MLX_DIR)/libmlx_Linux.a
 MLX_FLAGS = -L$(MLX_DIR) -lmlx_Linux -lX11 -lXext -lm
@@ -52,4 +52,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus: CFLAGS += -DMINIMAP=1
+bonus: all
+
+.PHONY: all clean fclean re bonus

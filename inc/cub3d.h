@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 14:08:17 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/07 10:45:50 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@
 # define ESC 65307
 
 # define DEBUG 0
-# define MINIMAP 1
+# ifndef MINIMAP
+#  define MINIMAP 0
+# endif
 # define TEXTURE 1
 # define VALGRIND 0
 
