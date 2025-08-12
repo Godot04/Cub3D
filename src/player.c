@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silas <silas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:50:45 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/12 12:28:18 by silas            ###   ########.fr       */
+/*   Updated: 2025/08/12 13:41:57 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,11 @@ void	no_collision(t_game *game, double dir_x, double dir_y, double speed)
 	}
 	else
 		return ;
-	if (tmp_x >= 0 && (int)tmp_x < (int)ft_strlen(game->map[(int)game->player.pos_y]))
+	if (tmp_x >= 0 && (int)tmp_x
+		< (int)ft_strlen(game->map[(int)game->player.pos_y]))
 		game->player.pos_x = tmp_x;
-	if (tmp_y >= 0 && (int)tmp_y < xy[Y] - 1 && 
-		(int)game->player.pos_x < (int)ft_strlen(game->map[(int)tmp_y]))
+	if (tmp_y >= 0 && (int)tmp_y < xy[Y] - 1
+		&& (int)game->player.pos_x < (int)ft_strlen(game->map[(int)tmp_y]))
 		game->player.pos_y = tmp_y;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
+/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/12 13:28:49 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/12 13:44:55 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ int		space_skip(char *str);
 int		fill_v(char **map_copy, int y, int x, char **map);
 int		player_spawn_search(int *y, int *x, char **map);
 
-void	draw_minimap(t_game *game, t_player *player);
+void	draw_minimap(t_game *game, t_player *player, int xy[2]);
 
 void	move_player(t_game *game);
 

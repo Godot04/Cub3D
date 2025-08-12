@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
+/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:50:55 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 11:53:10 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/12 13:44:16 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	game_loop(t_game *game)
 		draw_square(xy, PLAYER_SIZE, trgb_to_int(0, 128, 255, 128), game);
 	}
 	else if (MINIMAP)
-		draw_minimap(game, &game->player);
+		draw_minimap(game, &game->player, xy);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.ptr, 0, 0);
 	return (0);
 }

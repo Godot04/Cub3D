@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silas <silas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:35:08 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/12 12:33:00 by silas            ###   ########.fr       */
+/*   Updated: 2025/08/12 13:46:26 by silpaukn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ void	draw_mini(t_game *game, int xy[2], double start[2], int map[2])
 	}
 }
 
-void	draw_minimap(t_game *game, t_player *player)
+void	draw_minimap(t_game *game, t_player *player, int xy[2])
 {
 	int		map[2];
 	double	start[2];
-	int		xy[2];
 
 	map_xy_count(game->map, &map[X], &map[Y]);
 	xy[Y] = -1;
