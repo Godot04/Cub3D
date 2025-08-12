@@ -47,12 +47,14 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(BONUS)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(MLX_DIR) clean
 
 re: fclean all
 
 bonus: CFLAGS += -DMINIMAP=1
+bonus: CFLAGS += -DCOLLISION=1
 bonus: all
 
 .PHONY: all clean fclean re bonus

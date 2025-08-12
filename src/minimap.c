@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: silas <silas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:35:08 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 13:45:21 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:33:00 by silas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,19 @@ void	draw_minimap(t_game *game, t_player *player)
 	xy[Y] = -1;
 	if (map[X] > MAX_MAP_WIDTH)
 		start[X] = player->pos_x - (MAX_MAP_WIDTH / 2);
+	else
+		start[X] = 0;
 	if (map[Y] > MAX_MAP_HEIGHT)
 		start[Y] = player->pos_y - (MAX_MAP_HEIGHT / 2);
+	else
+		start[Y] = 0;
 	if (start[X] < 0)
 		start[X] = 0;
 	if (start[Y] < 0)
 		start[Y] = 0;
-	if (start[X] > map[X] - MAX_MAP_WIDTH)
+	if (map[X] > MAX_MAP_WIDTH && start[X] > map[X] - MAX_MAP_WIDTH)
 		start[X] = map[X] - MAX_MAP_WIDTH;
-	if (start[Y] > map[Y] - MAX_MAP_HEIGHT)
+	if (map[Y] > MAX_MAP_HEIGHT && start[Y] > map[Y] - MAX_MAP_HEIGHT)
 		start[Y] = map[Y] - MAX_MAP_HEIGHT;
 	draw_mini(game, xy, start, map);
 	xy[X] = (game->player.pos_x - start[X]) * MAP_SIZE - PLAYER_SIZE / 4;

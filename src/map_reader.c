@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_reader.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: silas <silas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:24:20 by opopov            #+#    #+#             */
-/*   Updated: 2025/08/06 13:03:19 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/12 11:39:04 by silas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	map_fill(char **map)
 		x = -1;
 		while (map[y][++x])
 		{
+			if (map[y][x] == '\n')
+				map[y][x] = '\0';
 			if (ft_isspace(map[y][x]))
 				map[y][x] = '0';
 		}
