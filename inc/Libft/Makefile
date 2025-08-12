@@ -6,7 +6,7 @@
 #    By: opopov <opopov@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 10:40:02 by opopov            #+#    #+#              #
-#    Updated: 2024/11/27 11:44:17 by opopov           ###   ########.fr        #
+#    Updated: 2025/08/07 10:21:12 by opopov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC     := ft_isalpha.c ft_isdigit.c \
 		ft_putnbr_fd.c ft_split.c
 
 OBJ     := $(SRC:.c=.o)
-CC      := gcc
+CC      := cc
 CFLAGS  := -Wall -Wextra -Werror -I$(INC_DIR)
 
 all: $(NAME)

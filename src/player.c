@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: silas <silas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 14:50:45 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 13:20:05 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:28:18 by silas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,29 @@ void	collision(t_game *game, double dir_x, double dir_y, double speed)
 	}
 }
 
+void	no_collision(t_game *game, double dir_x, double dir_y, double speed)
+{
+	double	len;
+	double	tmp_x;
+	double	tmp_y;
+	int		xy[2];
+
+	if ((dir_x != 0 || dir_y != 0))
+	{
+		len = sqrt(dir_x * dir_x + dir_y * dir_y);
+		tmp_x = game->player.pos_x + (dir_x / len) * speed;
+		tmp_y = game->player.pos_y + (dir_y / len) * speed;
+		map_xy_count(game->map, &xy[X], &xy[Y]);
+	}
+	else
+		return ;
+	if (tmp_x >= 0 && (int)tmp_x < (int)ft_strlen(game->map[(int)game->player.pos_y]))
+		game->player.pos_x = tmp_x;
+	if (tmp_y >= 0 && (int)tmp_y < xy[Y] - 1 && 
+		(int)game->player.pos_x < (int)ft_strlen(game->map[(int)tmp_y]))
+		game->player.pos_y = tmp_y;
+}
+
 void	move(t_game *game, double dir_x, double dir_y, double speed)
 {
 	if (game->player.key_up)
@@ -91,7 +114,10 @@ void	move(t_game *game, double dir_x, double dir_y, double speed)
 		dir_x += game->player.plane_x;
 		dir_y += game->player.plane_y;
 	}
-	collision(game, dir_x, dir_y, speed);
+	if (COLLISION)
+		collision(game, dir_x, dir_y, speed);
+	else
+		no_collision(game, dir_x, dir_y, speed);
 }
 
 void	move_player(t_game *game)

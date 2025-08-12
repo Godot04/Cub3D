@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silpaukn <silpaukn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: silas <silas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:14:08 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 13:09:25 by silpaukn         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:30:13 by silas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void	cast_ray(t_game *game, t_rc *rc)
 			else
 				rc->face = SOUTH;
 		}
-		if (!game->map[rc->map[Y]][rc->map[X]])
-			break ;
-		if (game->map[rc->map[Y]][rc->map[X]] == '1')
+		if (rc->map[X] < 0 || rc->map[Y] < 0 ||
+			!game->map[rc->map[Y]][rc->map[X]] ||
+			game->map[rc->map[Y]][rc->map[X]] == '1')
 			break ;
 	}
 }

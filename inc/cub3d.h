@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
+/*   By: silas <silas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 13:49:30 by silpaukn          #+#    #+#             */
-/*   Updated: 2025/08/06 14:08:17 by opopov           ###   ########.fr       */
+/*   Updated: 2025/08/12 11:50:44 by silas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,12 @@
 # define ESC 65307
 
 # define DEBUG 0
-# define MINIMAP 1
+# ifndef MINIMAP
+#  define MINIMAP 0
+# endif
+# ifndef COLLISION
+#  define COLLISION 0
+# endif
 # define TEXTURE 1
 # define VALGRIND 0
 
