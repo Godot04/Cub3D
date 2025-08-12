@@ -54,7 +54,6 @@ fclean: clean
 re: fclean all
 
 bonus: CFLAGS += -DMINIMAP=1
-bonus: CFLAGS += -DCOLLISION=1
 bonus: all
 
 .PHONY: all clean fclean re bonus
