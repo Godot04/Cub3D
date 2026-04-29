@@ -31,7 +31,6 @@ You wake up inside a maze-like map and explore it in first person. The world is 
 - Move through the map without walking through walls
 - Use the textures and colors defined in the `.cub` file
 - Navigate the environment from a first-person perspective
-- Optionally inspect the minimap when the project is built with the bonus flag
 
 ### Controls
 
@@ -175,7 +174,6 @@ The program reports descriptive errors for common failure cases:
 - Invalid map characters
 - Missing or duplicate player spawn positions
 - Unclosed map geometry
-- Memory allocation failures
 
 ## Implementation Structure
 
@@ -269,7 +267,6 @@ Checklist:
 3. Use one of `N`, `S`, `E`, or `W` for the spawn point
 4. Keep the map fully surrounded by walls
 5. Avoid invalid characters
-6. Make sure the file ends with `.cub`
 
 ## Notes
 
@@ -285,7 +282,6 @@ Checklist:
 - No enemy or interaction system
 - No animation system for movement
 - No dynamic resolution scaling
-- Minimap is only available in the bonus build
 
 ## Author
 
