@@ -283,6 +283,6 @@ Checklist:
 - No animation system for movement
 - No dynamic resolution scaling
 
-## Author
+## Authors
 
-**opopov**
+**opopov** and **silpaukn**
